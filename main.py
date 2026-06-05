@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QPushButton,
     QWidget,
+    QSizePolicy,
     QMenuBar)
 from PyQt6.QtGui import (
     QAction
@@ -33,6 +34,10 @@ class Window_title(QFrame):
         layout.setSpacing(2)
         self.setLayout(layout)
 
+        self.topbar = Menumanager(self)
+        self.topbar.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
+
+        layout.addWidget(self.topbar)
         layout.addStretch()
 
         # Min Button
@@ -51,6 +56,63 @@ class Window_title(QFrame):
         self.close_btn.clicked.connect(self.parent().close)
         self.close_btn.setObjectName("closebtn")
         layout.addWidget(self.close_btn)
+
+        # Setup MenuBar
+        self._setup_menubar()
+
+    def _setup_menubar(self):
+        """This method setup MenuBar"""
+
+        menubar = self.topbar
+        menus = {
+            "File": [
+                ("New File",None, "Ctrl+N"),
+                ("Open File",None, "Ctrl+O"),
+                ("Open Folder", None, "Ctrl+K"),
+                "separator",
+                ("Save", None, "Ctrl+S"),
+                ("Save As",None, "Ctrl+Shift+S"),
+                "separator",
+                ("Settings", None, None),
+                ("Exit", None, None),
+            ],
+            "Edit": [
+                ("Undo", None, "Ctrl+Z"),
+                ("Redo", None, "Ctrl+Shift+Z"),
+                "separator",
+                ("Cut", None, "Ctrl+X"),
+                ("Copy", None, "Ctrl+C"),
+                ("Paste", None, "Ctrl+V"),
+                "separator",
+                ("Find", None, None),
+                ("Replace", None, None),
+                ("Select All", None, "Ctrl+A"),
+                ("Go to Line", None, None),
+            ],
+            "View": [
+                ("Terminal", None, "Ctrl+'"),
+                "separator",
+                ("Toggle Sidebar", None, None),
+                "separator",
+                ("Zoom In", None, "Ctrl++"),
+                ("Zoom Out", None, "Ctrl+-"),
+            ],
+            "Run": [
+                ("Run Code", None, "Ctrl+R"),
+                ("Debug Code", None, None),
+            ],
+        }
+
+        for menu_name, actions in menus.items():
+            menu = menubar.add_menu(menu_name)
+
+            for item in actions:
+
+                if item == "separator":
+                    menu.addSeparator()
+                else:
+                    name, func, shortcut = item
+                    menubar.add_action(menu, name, func, shortcut)
 
     def toggle_max_restore(self):
         """This Method Handles Window Fullscreen Action"""
