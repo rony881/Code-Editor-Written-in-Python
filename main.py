@@ -8,9 +8,12 @@ from PyQt6.QtWidgets import (
     QSizePolicy,
     QTabWidget,
     QSplitter,
-    QMenuBar)
+    QMenuBar,
+    QTreeView
+    )
 from PyQt6.QtGui import (
-    QAction
+    QAction,
+    QFileSystemModel
 )
 from PyQt6.QtCore import Qt, QPoint
 import sys
@@ -150,17 +153,36 @@ class MainWindow(QWidget):
         self.setObjectName("container")
         self.resize(800, 600)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        
-        self.title = Window_title(self)
+        self.title = Window_title(self) # <- Title Bar
 
-        # Layout configuration
-        self.main_layout = QVBoxLayout(self)
-        self.main_layout.setContentsMargins(0, 0, 0, 0)
-        self.main_layout.setSpacing(0)
+        # My Working Directory
+        self.current_working_dir = r"C:\Users\Lenovo\OneDrive\文件\Projects\Tree_View"
 
-        self.main_layout.addWidget(self.title)
-        self.main_layout.addStretch()
-        
+        self._setup_tree(self.current_working_dir)
+        self._setup_tabs()
+        self._setup_splitter()
+        self._setup_layout()
+    
+    def _setup_tree(self, file_path):
+        self.model = QFileSystemModel()
+        self.tree = QTreeView()
+
+        self.model.setRootPath(file_path)
+        self.tree.setModel(self.model)
+        self.tree.setRootIndex(self.model.index(file_path))
+
+        # File TreeView Configarations
+        self.model.setIconProvider(None)  # Remove Folder and File Icons
+        self.tree.hideColumn(1)
+        self.tree.hideColumn(2)  # Hide The Columns Of File TreeView
+        self.tree.hideColumn(3)
+        self.tree.setAnimated(True)
+        self.tree.setIndentation(20)
+        self.tree.setMinimumWidth(180)
+        self.tree.setItemsExpandable(True)
+        self.tree.setRootIsDecorated(True)
+        self.tree.setHeaderHidden(True)  # Hide the File Header
+
     def _setup_tabs(self):
         """This Method Setup Tabs"""
 
@@ -182,7 +204,7 @@ class MainWindow(QWidget):
 
         self.tabs.setCornerWidget(menu, Qt.Corner.BottomRightCorner)
 
-    def _setup_spliter(self):
+    def _setup_splitter(self):
         """This Method Setup Splitter"""
 
         self.splitter = QSplitter()
@@ -195,6 +217,20 @@ class MainWindow(QWidget):
         self.splitter.addWidget(self.tabs)
 
         self.splitter.setSizes([200, 900])
+
+    def _setup_layout(self):
+        """This Method Setup Layout"""
+
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setSpacing(0)
+
+        # Add The TitleBar and The Splitter
+        self.main_layout.addWidget(self.title)
+        self.main_layout.addWidget(self.splitter)
+    
+    def close_tab(self,index):
+        self.tabs.removeTab(index)
 
 # ============================================================================
 # Menu Manager Class
