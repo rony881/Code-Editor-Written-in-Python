@@ -6,6 +6,8 @@ from PyQt6.QtWidgets import (
     QPushButton,
     QWidget,
     QSizePolicy,
+    QTabWidget,
+    QSplitter,
     QMenuBar)
 from PyQt6.QtGui import (
     QAction
@@ -158,6 +160,41 @@ class MainWindow(QWidget):
 
         self.main_layout.addWidget(self.title)
         self.main_layout.addStretch()
+        
+    def _setup_tabs(self):
+        """This Method Setup Tabs"""
+
+        self.tabs = QTabWidget()
+        self.tabs.setObjectName("tabwidget")
+
+        self.tabs.setTabsClosable(True)
+        self.tabs.setMovable(True)
+        self.tabs.tabCloseRequested.connect(self.close_tab)
+
+        # --- Create the Add Button ---
+        menu = Menumanager(self)
+        menu.setObjectName("addbtn")
+        add_btn = menu.addMenu("+")
+
+        menu.add_action(add_btn, "New File")
+        menu.add_action(add_btn, "Open Terminal")
+        menu.add_action(add_btn, "Open Folder")
+
+        self.tabs.setCornerWidget(menu, Qt.Corner.BottomRightCorner)
+
+    def _setup_spliter(self):
+        """This Method Setup Splitter"""
+
+        self.splitter = QSplitter()
+        self.splitter.setObjectName("splitter")
+        self.splitter.setHandleWidth(0)
+
+        self.splitter.setContentsMargins(0, 0, 0, 0)
+
+        self.splitter.addWidget(self.tree)
+        self.splitter.addWidget(self.tabs)
+
+        self.splitter.setSizes([200, 900])
 
 # ============================================================================
 # Menu Manager Class
