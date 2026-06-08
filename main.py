@@ -153,6 +153,9 @@ class MainWindow(QWidget):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.title = Window_title(self) # <- Title Bar
 
+        # This Will Use For File Operations
+        self.file_ops = FileOps(self)
+
         # My Working Directory
         self.current_working_dir = r"C:\Users\Lenovo\OneDrive\文件\Projects\Tree_View"
 
@@ -273,8 +276,6 @@ class Editor(QsciScintilla):
     def __init__(self):
         super().__init__()
         self.setObjectName("Editor")
-        lexer = self.syntax_color()
-        self.setLexer(lexer)
 
         self.setMarginWidth(0, "00000")
         self.setMarginType(0, QsciScintilla.MarginType.NumberMargin)
@@ -317,6 +318,36 @@ class Menumanager(QMenuBar):
         menu.addAction(action)
         return action
 
+class FileOps:
+    """ This Class Will Handle File Releted Operations """
+
+    def __init__(self,parent: QWidget):
+        super().__init__()
+        self.parent = parent
+
+    def read_file(self,file_path):
+        """ This Method Reads a File And Returns Its Content """
+        try:
+            with open(file_path,"r",encoding="utf-8") as f:
+                content = f.read()
+        except FileNotFoundError as e:
+            print(e)
+            return False
+        else:
+            return content
+        
+    def write_file(self,file_path,content):
+        """ This Method Writes a File """
+        try:
+            with open(file_path,"w",encoding="utf-8",newline="") as f:
+                f.write(content)
+        except FileNotFoundError as e:
+            print(e)
+            return False
+        else:
+            return True
+        
+        
 
 # =============================================================================
 # Run App
