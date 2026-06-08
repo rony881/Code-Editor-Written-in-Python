@@ -156,6 +156,10 @@ class MainWindow(QWidget):
         # My Working Directory
         self.current_working_dir = r"C:\Users\Lenovo\OneDrive\文件\Projects\Tree_View"
 
+        # This Will Keep tarck of Opened Tabs and Files
+        self.open_files = {}
+        self.open_tabs = {}
+
         self._setup_tree(self.current_working_dir)
         self._setup_tabs()
         self._setup_splitter()
@@ -180,6 +184,9 @@ class MainWindow(QWidget):
         self.tree.setItemsExpandable(True)
         self.tree.setRootIsDecorated(True)
         self.tree.setHeaderHidden(True)  # Hide the File Header
+
+        # File Click Event on Tree
+        self.tree.clicked.connect(self.on_file_click)
 
     def _setup_tabs(self):
         """This Method Setup Tabs"""
@@ -218,6 +225,43 @@ class MainWindow(QWidget):
     
     def close_tab(self,index):
         self.tabs.removeTab(index)
+
+    def on_file_click(self, index):
+        """Handle File Tree Click"""
+        file_info = self.model.fileInfo(index)
+
+        if file_info.isDir():  # If file is Folder then Do nothing
+            return
+
+        file_path = file_info.filePath()
+        file_name = file_info.fileName()
+
+        text = self.file_ops.read_file(file_path)
+        
+        if text:
+            self.mk_tab(file_name, file_path, text)
+    
+    def mk_tab(self, name, file_path, text):
+
+        if file_path in self.open_tabs:
+            tab = self.open_tabs[file_path]  # -> tab
+            indx = self.tabs.indexOf(tab)
+            self.tabs.setCurrentIndex(indx)
+            return
+
+        new_tab = Editor()
+        new_tab.setText(text)
+        new_tab.file_path = file_path
+
+        tab_index = self.tabs.addTab(
+            new_tab, name
+        )  # Creat New Tab and return Tab Index
+
+        self.open_files[file_path] = tab_index
+        self.open_tabs[file_path] = new_tab
+        self.tabs.setCurrentIndex(tab_index)
+
+    
 
 # ============================================================================
 # Main Editor Class
