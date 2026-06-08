@@ -1,3 +1,4 @@
+from PyQt6.Qsci import QsciScintilla
 from PyQt6.QtWidgets import (
     QApplication,
     QFrame,
@@ -125,7 +126,6 @@ class Window_title(QFrame):
             self.parent().showNormal()
         else:
             self.parent().showMaximized()
-
     # Window Dragging Methods:
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
@@ -137,11 +137,9 @@ class Window_title(QFrame):
         if event.buttons() & Qt.MouseButton.LeftButton:
             self.parent().move(event.globalPosition().toPoint() - self.drag_pos)
 
-
 # ============================================================================
 # Mainwindow Class
 # ============================================================================
-
 
 class MainWindow(QWidget):
     """Main application window."""
@@ -193,17 +191,6 @@ class MainWindow(QWidget):
         self.tabs.setMovable(True)
         self.tabs.tabCloseRequested.connect(self.close_tab)
 
-        # --- Create the Add Button ---
-        menu = Menumanager(self)
-        menu.setObjectName("addbtn")
-        add_btn = menu.addMenu("+")
-
-        menu.add_action(add_btn, "New File")
-        menu.add_action(add_btn, "Open Terminal")
-        menu.add_action(add_btn, "Open Folder")
-
-        self.tabs.setCornerWidget(menu, Qt.Corner.BottomRightCorner)
-
     def _setup_splitter(self):
         """This Method Setup Splitter"""
 
@@ -233,6 +220,34 @@ class MainWindow(QWidget):
         self.tabs.removeTab(index)
 
 # ============================================================================
+# Main Editor Class
+# ============================================================================
+
+class Editor(QsciScintilla):
+    """The Editor Inharet From QSciScintilla(Code Editor) Class"""
+
+    def __init__(self):
+        super().__init__()
+        self.setObjectName("Editor")
+        lexer = self.syntax_color()
+        self.setLexer(lexer)
+
+        self.setMarginWidth(0, "00000")
+        self.setMarginType(0, QsciScintilla.MarginType.NumberMargin)
+        self.setTabWidth(4)
+
+        # Auto-completion:
+        self.setAutoCompletionSource(QsciScintilla.AutoCompletionSource.AcsAll)
+        self.setAutoCompletionThreshold(1)
+        self.setAutoCompletionCaseSensitivity(False)
+
+        # Indentation Guide
+        self.setAutoIndent(True)
+        self.setIndentationGuides(True)
+        self.setIndentationsUseTabs(False)
+        self.setCaretWidth(2)  # Cursor Width
+
+# ============================================================================
 # Menu Manager Class
 # ============================================================================
 class Menumanager(QMenuBar):
@@ -257,7 +272,6 @@ class Menumanager(QMenuBar):
 
         menu.addAction(action)
         return action
-
 
 
 # =============================================================================
