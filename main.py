@@ -23,6 +23,7 @@ import sys
 
 DEFAULT_FONT_NAME = "Consolas"
 DEFAULT_FONT_SIZE = 11
+STYLESHEET = "style.qss"
 
 
 
@@ -217,6 +218,16 @@ class MainWindow(QWidget):
 
         # File Click Event on Tree
         self.tree.clicked.connect(self.on_file_click)
+
+        self.setStylesheet(STYLESHEET)
+
+    def setStylesheet(self, styleSheet):
+        """Set The SyleSheeet To The Application"""
+
+        style_sheet = self.file_ops.read_file(STYLESHEET)
+
+        if style_sheet:
+            self.setStyleSheet(style_sheet)
 
     def _setup_tabs(self):
         """This Method Setup Tabs"""

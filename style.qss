@@ -1,0 +1,14 @@
+ /* titlebar styling */
+
+#titlebar{
+    background-color: #1e1e1e;
+}
+
+/* QPushButton Style */
+
+QPushButton {
+    background-color: #1e1e1e;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+}
