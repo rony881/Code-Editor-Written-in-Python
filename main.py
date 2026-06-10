@@ -181,6 +181,11 @@ class MainWindow(QWidget):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.title = Window_title(self) # <- Title Bar
 
+        # File TreeView
+        self.tree = QTreeView()
+        self.tree.setObjectName("treeview")
+        self.tree.clicked.connect(self.on_file_click)
+
         # This Will Use For File Operations
         self.file_ops = FileOps(self)
 
@@ -191,35 +196,33 @@ class MainWindow(QWidget):
         self.open_files = {}
         self.open_tabs = {}
 
-        self._setup_tree(self.current_working_dir)
+        self.mk_tree(self.current_working_dir)
         self._setup_tabs()
         self._setup_splitter()
         self._setup_layout()
+        self.setStylesheet(STYLESHEET)
     
-    def _setup_tree(self, file_path):
+    def mk_tree(self, file_path):
         self.model = QFileSystemModel()
-        self.tree = QTreeView()
 
         self.model.setRootPath(file_path)
+        self.model.setIconProvider(None)  # Remove Folder and File Icons
+
+        # tree configaretion
         self.tree.setModel(self.model)
         self.tree.setRootIndex(self.model.index(file_path))
-
-        # File TreeView Configarations
-        self.model.setIconProvider(None)  # Remove Folder and File Icons
         self.tree.hideColumn(1)
-        self.tree.hideColumn(2)  # Hide The Columns Of File TreeView
+        self.tree.hideColumn(2)  # Hide Extra Column
         self.tree.hideColumn(3)
         self.tree.setAnimated(True)
-        self.tree.setIndentation(20)
-        self.tree.setMinimumWidth(180)
+        self.tree.setIndentation(10)
+        self.tree.setMinimumWidth(170)
         self.tree.setItemsExpandable(True)
-        self.tree.setRootIsDecorated(True)
-        self.tree.setHeaderHidden(True)  # Hide the File Header
+        self.tree.setRootIsDecorated(False)
+        self.tree.setHeaderHidden(False)  # Hide the File Header
 
         # File Click Event on Tree
-        self.tree.clicked.connect(self.on_file_click)
 
-        self.setStylesheet(STYLESHEET)
 
     def setStylesheet(self, styleSheet):
         """Set The SyleSheeet To The Application"""

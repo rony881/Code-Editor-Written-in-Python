@@ -12,3 +12,40 @@ QPushButton {
     border: none;
     padding: 6px 15px;
 }
+
+/*==================================================
+             TREE VIEW
+==================================================== */
+
+#treeview {
+    background-color: #262626;
+    color: #A0A0A0;
+    /* border: 1px solid #3f4043; */
+    font-family: Consolas;
+    padding: 7px 7px;
+    font-size: 15px;
+    outline: none;
+
+}
+
+#treeview::item {
+    padding: 4px ;
+    border-radius: 5px;
+    margin: 2px;
+}
+
+#treeview::item:hover {
+    background: #343434;
+    
+    color: #bfbdb6;
+}
+
+
+#treeview::item:selected{
+    background-color: #343434;
+    color: #dadada;
+}
+
+#treeview::branch:has-parent {
+    background: #262626;
+}
