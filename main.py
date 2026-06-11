@@ -10,7 +10,8 @@ from PyQt6.QtWidgets import (
     QTabWidget,
     QSplitter,
     QMenuBar,
-    QTreeView
+    QTreeView,
+    QFileDialog
     )
 from PyQt6.QtGui import (
     QAction,
@@ -19,7 +20,7 @@ from PyQt6.QtGui import (
     QFont
 )
 from PyQt6.QtCore import Qt, QPoint
-import sys
+import sys,os
 
 DEFAULT_FONT_NAME = "Consolas"
 DEFAULT_FONT_SIZE = 11
@@ -52,16 +53,15 @@ SYNTAX_COLORS_1 = {
 # Window Title Class
 # ============================================================================
 
-
 class Window_title(QFrame):
-    """This Class Creates a Custom Window Title"""
+    """This Class Creats a Custom Window Title"""
 
     def __init__(self, parent: QWidget):
-        super().__init__(parent)
+        super().__init__(parent)  # Pass parent to Qt so self.parent() works
 
         self.drag_pos = QPoint()
-        self.setObjectName("titlebar")
-        self.setFixedHeight(30)
+        self.setObjectName("titlebar")  # Object name
+        self.setFixedHeight(30)  # Height of the title Bar
 
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -78,83 +78,25 @@ class Window_title(QFrame):
         self.min_btn = QPushButton("—")
         self.min_btn.clicked.connect(self.parent().showMinimized)
         layout.addWidget(self.min_btn)
-
         # Max Button
         self.max_btn = QPushButton("□")
         self.max_btn.clicked.connect(self.toggle_max_restore)
         self.max_btn.setObjectName("maxbtn")
         layout.addWidget(self.max_btn)
-        
         # Close Button
         self.close_btn = QPushButton("✕")
         self.close_btn.clicked.connect(self.parent().close)
         self.close_btn.setObjectName("closebtn")
         layout.addWidget(self.close_btn)
 
-        # Setup MenuBar
-        self._setup_menubar()
-
-    def _setup_menubar(self):
-        """This method setup MenuBar"""
-
-        menubar = self.topbar
-        menus = {
-            "File": [
-                ("New File",None, "Ctrl+N"),
-                ("Open File",None, "Ctrl+O"),
-                ("Open Folder", None, "Ctrl+K"),
-                "separator",
-                ("Save", None, "Ctrl+S"),
-                ("Save As",None, "Ctrl+Shift+S"),
-                "separator",
-                ("Settings", None, None),
-                ("Exit", None, None),
-            ],
-            "Edit": [
-                ("Undo", None, "Ctrl+Z"),
-                ("Redo", None, "Ctrl+Shift+Z"),
-                "separator",
-                ("Cut", None, "Ctrl+X"),
-                ("Copy", None, "Ctrl+C"),
-                ("Paste", None, "Ctrl+V"),
-                "separator",
-                ("Find", None, None),
-                ("Replace", None, None),
-                ("Select All", None, "Ctrl+A"),
-                ("Go to Line", None, None),
-            ],
-            "View": [
-                ("Terminal", None, "Ctrl+'"),
-                "separator",
-                ("Toggle Sidebar", None, None),
-                "separator",
-                ("Zoom In", None, "Ctrl++"),
-                ("Zoom Out", None, "Ctrl+-"),
-            ],
-            "Run": [
-                ("Run Code", None, "Ctrl+R"),
-                ("Debug Code", None, None),
-            ],
-        }
-
-        for menu_name, actions in menus.items():
-            menu = menubar.add_menu(menu_name)
-
-            for item in actions:
-
-                if item == "separator":
-                    menu.addSeparator()
-                else:
-                    name, func, shortcut = item
-                    menubar.add_action(menu, name, func, shortcut)
-
     def toggle_max_restore(self):
-        """This Method Handles Window Fullscreen Action"""
+        """This Method Handle Window Fullscreen Action"""
         if self.parent().isMaximized():
             self.parent().showNormal()
         else:
             self.parent().showMaximized()
-    # Window Dragging Methods:
+
+    # Window Draging Methods :
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             self.drag_pos = (
@@ -164,6 +106,7 @@ class Window_title(QFrame):
     def mouseMoveEvent(self, event):
         if event.buttons() & Qt.MouseButton.LeftButton:
             self.parent().move(event.globalPosition().toPoint() - self.drag_pos)
+
 
 # ============================================================================
 # Mainwindow Class
@@ -196,33 +139,25 @@ class MainWindow(QWidget):
         self.open_files = {}
         self.open_tabs = {}
 
-        self.mk_tree(self.current_working_dir)
+        # File dialog filters
+        self.file_filter = (
+            "All Files (*.*);"
+            "Python Files (*.py);"
+            "C++ Files (*.cpp);"
+            "C Files (*.c);"
+            "QSS Files (*.qss);"
+            "Java Files (*.java);"
+            "Javascript (*.js);"
+            "HTML (*.html);"
+            "Readme File (*.md)"
+        )
+
         self._setup_tabs()
         self._setup_splitter()
         self._setup_layout()
+        self._setup_menubar()
+        self.mk_tree(self.current_working_dir)
         self.setStylesheet(STYLESHEET)
-    
-    def mk_tree(self, file_path):
-        self.model = QFileSystemModel()
-
-        self.model.setRootPath(file_path)
-        self.model.setIconProvider(None)  # Remove Folder and File Icons
-
-        # tree configaretion
-        self.tree.setModel(self.model)
-        self.tree.setRootIndex(self.model.index(file_path))
-        self.tree.hideColumn(1)
-        self.tree.hideColumn(2)  # Hide Extra Column
-        self.tree.hideColumn(3)
-        self.tree.setAnimated(True)
-        self.tree.setIndentation(10)
-        self.tree.setMinimumWidth(170)
-        self.tree.setItemsExpandable(True)
-        self.tree.setRootIsDecorated(False)
-        self.tree.setHeaderHidden(False)  # Hide the File Header
-
-        # File Click Event on Tree
-
 
     def setStylesheet(self, styleSheet):
         """Set The SyleSheeet To The Application"""
@@ -231,6 +166,53 @@ class MainWindow(QWidget):
 
         if style_sheet:
             self.setStyleSheet(style_sheet)
+    
+    def _setup_menubar(self):
+        """This method setup MenuBar"""
+
+        menubar = self.title.topbar
+        menus = {
+            "File": [
+                ("New File", self.file_ops.new_file, "Ctrl+N"),
+                ("Open File", self.file_ops.open_file, "Ctrl+O"),
+                ("Open Folder", self.file_ops.open_folder, "Ctrl+K"),
+                "separator",
+                ("Save", self.file_ops.save_file, "Ctrl+S"),
+                ("Save As", self.file_ops.save_as, "Ctrl+Shift+S"),
+                "separator",
+                ("Settings", None, None),
+                ("Exit", self.close, None),
+            ],
+            "Edit": [
+                ("Find", None, None),
+                ("Replace", None, None),
+                ("Select All", None, "Ctrl+A"),
+                ("Go to Line", None, None),
+                ("Zoom In", None, "Ctrl++"),
+                ("Zoom Out", None, "Ctrl+-"),
+            ],
+            "View": [
+                ("Zen Mode", None, None),
+                ("Open Terminal", None, "Ctrl+'"),
+                "separator",
+                ("Toggle Sidebar", None, None),
+            ],
+            "Run": [
+                ("Run Code", None, "Ctrl+R"),
+                ("Debug Code", None, None),
+            ],
+        }
+
+        for menu_name, actions in menus.items():
+            menu = menubar.add_menu(menu_name)
+
+            for item in actions:
+
+                if item == "separator":
+                    menu.addSeparator()
+                else:
+                    name, func, shortcut = item
+                    menubar.add_action(menu, name, func, shortcut)
 
     def _setup_tabs(self):
         """This Method Setup Tabs"""
@@ -285,6 +267,25 @@ class MainWindow(QWidget):
         if text:
             self.mk_tab(file_name, file_path, text)
     
+    def mk_tree(self, file_path):
+        self.model = QFileSystemModel()
+
+        self.model.setRootPath(file_path)
+        self.model.setIconProvider(None)  # Remove Folder and File Icons
+
+        # tree configaretion
+        self.tree.setModel(self.model)
+        self.tree.setRootIndex(self.model.index(file_path))
+        self.tree.hideColumn(1)
+        self.tree.hideColumn(2)  # Hide Extra Column
+        self.tree.hideColumn(3)
+        self.tree.setAnimated(True)
+        self.tree.setIndentation(10)
+        self.tree.setMinimumWidth(170)
+        self.tree.setItemsExpandable(True)
+        self.tree.setRootIsDecorated(False)
+        self.tree.setHeaderHidden(False)  # Hide the File Header
+
     def mk_tab(self, name, file_path, text):
 
         if file_path in self.open_tabs:
@@ -304,7 +305,6 @@ class MainWindow(QWidget):
         self.open_files[file_path] = tab_index
         self.open_tabs[file_path] = new_tab
         self.tabs.setCurrentIndex(tab_index)
-
     
 
 # ============================================================================
@@ -418,10 +418,12 @@ class Menumanager(QMenuBar):
         menu.addAction(action)
         return action
 
+# ============================================================================
+# File Operation Class
+# ============================================================================
 class FileOps:
-    """ This Class Will Handle File Releted Operations """
-
-    def __init__(self,parent: QWidget):
+    """ This Class Handle File Operations """
+    def __init__(self, parent: QWidget):
         super().__init__()
         self.parent = parent
 
@@ -446,7 +448,71 @@ class FileOps:
             return False
         else:
             return True
+
+    def open_file(self):
+        """This Method Open File"""
+        file_path, _ = QFileDialog.getOpenFileName(
+            self.parent,
+            self.parent.file_filter,
+        )
+        file_name = os.path.basename(file_path)
+
+        if not file_path:
+            return
         
+        self.parent.path = file_path
+
+        text = self.read_file(file_path)
+        if text:
+            self.parent.mk_tab(file_name, file_path, text)
+            print(f"{file_name} was opened")
+
+    def open_folder(self):
+        """This Method Open Folder"""
+
+        file_path = QFileDialog.getExistingDirectory(self.parent, "Open Folder")
+        if not file_path:
+            return
+
+        self.parent.mk_tree(file_path)
+
+    def new_file(self):
+        name = "Untitled.py"
+        text = ""
+
+        path = os.path.join(self.parent.current_working_dir, name)
+
+        counter = 1
+        while path in self.parent.open_tabs:
+            path = os.path.join(self.parent.current_working_dir, f"Untitled_{counter}.py")
+            counter += 1
+
+        self.parent.mk_tab(os.path.basename(path), path, text)
+
+    def save_file(self,file_path=None,content=None):
+        """This Method Saves the File"""
+
+        content = self.parent.get_text()
+        file_path = self.parent.get_path()
+
+        if not content:
+            return
+
+        save = self.write_file(file_path,content)
+
+        if save :
+            print("File Saved ✅")
+
+    def save_as(self, index):
+
+        content = self.parent.get_text()
+
+        file_path, _ = QFileDialog.getSaveFileName(self.parent, "", "Untitled.py")
+
+        if not file_path:
+            return
+        
+        self.save_file(file_path,content)
         
 
 # =============================================================================
