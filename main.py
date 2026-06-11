@@ -20,16 +20,21 @@ from PyQt6.QtGui import (
     QFont
 )
 from PyQt6.QtCore import Qt, QPoint
-import sys,os
+import sys,os,subprocess
 
+# Window Style
 DEFAULT_FONT_NAME = "Consolas"
 DEFAULT_FONT_SIZE = 11
 STYLESHEET = "style.qss"
 
+# Window Size
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 800
 
+# Python Exe Path
+PYTHON_EXE_PATH = sys.executable
 
 # Syntax highlighting colors
-
 SYNTAX_COLORS_1 = {
     "default": "#bb6afe",  # Text
     "background": "#1e1e1e",  # Base
@@ -120,7 +125,7 @@ class MainWindow(QWidget):
 
         # Window configuration
         self.setObjectName("container")
-        self.resize(800, 600)
+        self.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.title = Window_title(self) # <- Title Bar
 
@@ -198,7 +203,7 @@ class MainWindow(QWidget):
                 ("Toggle Sidebar", None, None),
             ],
             "Run": [
-                ("Run Code", None, "Ctrl+R"),
+                ("Run Code", self.run_code, "Ctrl+R"),
                 ("Debug Code", None, None),
             ],
         }
@@ -248,6 +253,28 @@ class MainWindow(QWidget):
         # Add The TitleBar and The Splitter
         self.main_layout.addWidget(self.title)
         self.main_layout.addWidget(self.splitter)
+
+    def run_code(self):
+        """Run the current Python file"""
+
+        file_path = self.get_path()
+
+        if not file_path: return
+        
+        file_dir = os.path.dirname(file_path)
+
+        if not file_dir: return
+
+        _, extension = os.path.splitext(file_path)
+
+        if extension == ".py":
+            subprocess.Popen(
+                ["cmd", "/k", PYTHON_EXE_PATH, file_path], # "/k" means Terminal Stays Open after Running 
+                cwd = file_dir, # set the Current Working Directory
+                creationflags = subprocess.CREATE_NEW_CONSOLE, # Creats a New Terminal
+            )
+        else:
+            print("Only Python File is Suported ")
     
     def close_tab(self,index):
         self.tabs.removeTab(index)
