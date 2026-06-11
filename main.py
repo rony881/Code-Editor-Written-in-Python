@@ -306,6 +306,16 @@ class MainWindow(QWidget):
         self.open_tabs[file_path] = new_tab
         self.tabs.setCurrentIndex(tab_index)
     
+    def get_text(self):
+        widget = self.tabs.currentWidget()
+
+        return widget.text() if widget else ""
+    
+    def get_path(self):
+        widget = self.tabs.currentWidget()
+
+        return widget.file_path if widget else None
+    
 
 # ============================================================================
 # Main Editor Class
