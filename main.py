@@ -11,7 +11,8 @@ from PyQt6.QtWidgets import (
     QSplitter,
     QMenuBar,
     QTreeView,
-    QFileDialog
+    QFileDialog,
+    QMessageBox
     )
 from PyQt6.QtGui import (
     QAction,
@@ -26,11 +27,9 @@ import sys,os,subprocess
 DEFAULT_FONT_NAME = "Consolas"
 DEFAULT_FONT_SIZE = 11
 STYLESHEET = "style.qss"
-
 # Window Size
 WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800
-
 # Python Exe Path
 PYTHON_EXE_PATH = sys.executable
 
@@ -53,7 +52,6 @@ SYNTAX_COLORS_1 = {
     "caret_fg": "#fe8f40",  # Sky
 }
 
-
 # ============================================================================
 # Window Title Class
 # ============================================================================
@@ -66,7 +64,7 @@ class Window_title(QFrame):
 
         self.drag_pos = QPoint()
         self.setObjectName("titlebar")  # Object name
-        self.setFixedHeight(30)  # Height of the title Bar
+        self.setFixedHeight(35)  # Height of the title Bar
 
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -117,32 +115,30 @@ class Window_title(QFrame):
 # ============================================================================
 
 class MainWindow(QWidget):
-    """Main application window."""
+    """Main application window for the text editor."""
 
     def __init__(self):
+        """Initialize The Main Window"""
         super().__init__()
 
         # Window configuration
         self.setObjectName("container")
         self.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        self.title = Window_title(self) # <- Title Bar
 
+        # Custome Title Bar Object
+        self.title = Window_title(self) # <- Title Bar
+        # This Will Use For File Operations
+        self.file_ops = FileOps(self)
+        # This Will Keep tarck of Opened Tabs and Files
+        self.open_tabs = {}
+        self.open_files = {}
         # File TreeView
         self.tree = QTreeView()
         self.tree.setObjectName("treeview")
         self.tree.clicked.connect(self.on_file_click)
-
-        # This Will Use For File Operations
-        self.file_ops = FileOps(self)
-
         # My Working Directory
         self.current_working_dir = r"C:\Users\Lenovo\OneDrive\文件\Projects\Text Editor"
-
-        # This Will Keep tarck of Opened Tabs and Files
-        self.open_files = {}
-        self.open_tabs = {}
-
         # File dialog filters
         self.file_filter = (
             "All Files (*.*);"
@@ -155,11 +151,12 @@ class MainWindow(QWidget):
             "HTML (*.html);"
             "Readme File (*.md)"
         )
-
+        
+        # ======== Window Setup =========
+        self._setup_menubar()
         self._setup_tabs()
         self._setup_splitter()
         self._setup_layout()
-        self._setup_menubar()
         self.mk_tree(self.current_working_dir)
         self.setStylesheet(STYLESHEET)
 
@@ -170,7 +167,41 @@ class MainWindow(QWidget):
 
         if style_sheet:
             self.setStyleSheet(style_sheet)
-    
+
+    def _setup_layout(self):
+        """This Method Setup Layout"""
+
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setSpacing(0)
+
+        # Add The TitleBar and The Splitter
+        self.main_layout.addWidget(self.title)
+        self.main_layout.addWidget(self.splitter)
+
+    def _setup_splitter(self):
+        """This Method Setup Splitter"""
+
+        self.splitter = QSplitter()
+        self.splitter.setObjectName("splitter")
+        self.splitter.setHandleWidth(1)
+
+        self.splitter.setContentsMargins(0, 0, 0, 0)
+
+        self.splitter.addWidget(self.tree)
+        self.splitter.addWidget(self.tabs)
+
+        self.splitter.setSizes([190, 910])
+
+    def _setup_tabs(self):
+        """This Method Setup Tabs"""
+
+        self.tabs = QTabWidget()
+        self.tabs.setObjectName("tabwidget")
+
+        self.tabs.setTabsClosable(True)
+        self.tabs.setMovable(True)
+        self.tabs.tabCloseRequested.connect(self.close_tab)
     def _setup_menubar(self):
         """This method setup MenuBar"""
 
@@ -218,81 +249,6 @@ class MainWindow(QWidget):
                     name, func, shortcut = item
                     menubar.add_action(menu, name, func, shortcut)
 
-    def _setup_tabs(self):
-        """This Method Setup Tabs"""
-
-        self.tabs = QTabWidget()
-        self.tabs.setObjectName("tabwidget")
-
-        self.tabs.setTabsClosable(True)
-        self.tabs.setMovable(True)
-        self.tabs.tabCloseRequested.connect(self.close_tab)
-
-    def _setup_splitter(self):
-        """This Method Setup Splitter"""
-
-        self.splitter = QSplitter()
-        self.splitter.setObjectName("splitter")
-        self.splitter.setHandleWidth(1)
-
-        self.splitter.setContentsMargins(0, 0, 0, 0)
-
-        self.splitter.addWidget(self.tree)
-        self.splitter.addWidget(self.tabs)
-
-        self.splitter.setSizes([190, 910])
-
-    def _setup_layout(self):
-        """This Method Setup Layout"""
-
-        self.main_layout = QVBoxLayout(self)
-        self.main_layout.setContentsMargins(0, 0, 0, 0)
-        self.main_layout.setSpacing(0)
-
-        # Add The TitleBar and The Splitter
-        self.main_layout.addWidget(self.title)
-        self.main_layout.addWidget(self.splitter)
-
-    def run_code(self):
-        """Run the current Python file"""
-
-        file_path = self.get_path()
-
-        if not file_path: return
-        
-        file_dir = os.path.dirname(file_path)
-
-        if not file_dir: return
-
-        _, extension = os.path.splitext(file_path)
-
-        if extension == ".py":
-            subprocess.Popen(
-                ["cmd", "/k", PYTHON_EXE_PATH, file_path], # "/k" means Terminal Stays Open after Running 
-                cwd = file_dir, # set the Current Working Directory
-                creationflags = subprocess.CREATE_NEW_CONSOLE, # Creats a New Terminal
-            )
-        else:
-            print("Only Python File is Suported ")
-    
-    def close_tab(self,index):
-        self.tabs.removeTab(index)
-
-    def on_file_click(self, index):
-        """Handle File Tree Click"""
-        file_info = self.model.fileInfo(index)
-
-        if file_info.isDir():  # If file is Folder then Do nothing
-            return
-
-        file_path = file_info.filePath()
-        file_name = file_info.fileName()
-
-        text = self.file_ops.read_file(file_path)
-        
-        if text:
-            self.mk_tab(file_name, file_path, text)
-    
     def mk_tree(self, file_path):
         self.model = QFileSystemModel()
 
@@ -312,6 +268,59 @@ class MainWindow(QWidget):
         self.tree.setRootIsDecorated(False)
         self.tree.setHeaderHidden(True)  # Hide the File Header
 
+    def zen_mode(self):
+        if self.isFullScreen():
+            self.showNormal()
+            self.title.show()
+            self.tree.show()
+        else:
+            self.showFullScreen()
+            self.tree.hide()
+            self.title.hide()
+
+    def run_code(self):
+        """Run the current Python file"""
+
+        file_path = self.get_path()
+        if not file_path: return
+        
+        file_dir = os.path.dirname(file_path)
+        if not file_dir: return
+
+        _, extension = os.path.splitext(file_path)
+
+        if extension == ".py":
+            subprocess.Popen(
+                ["cmd", "/k", PYTHON_EXE_PATH, file_path], # "/k" means Terminal Stays Open after Running 
+                cwd = file_dir, # set the Current Working Directory
+                creationflags = subprocess.CREATE_NEW_CONSOLE, # Creats a New Terminal
+            )
+        else:
+            print("Only Python File is Suported ")
+
+    def close_tab(self, index):
+        """Close a tab and save its content"""
+
+        file_path = self.get_path()
+        content = self.get_text()
+
+        reply = QMessageBox.question(self, "Save File", "Save File Befor Closing Tab? ")
+
+        if file_path in self.open_tabs:
+            del self.open_tabs[file_path]
+
+        if file_path in self.open_files:
+            del self.open_files[file_path]
+
+        if reply == QMessageBox.StandardButton.No:
+            self.tabs.removeTab(index)
+            return
+
+        save = self.file_ops.write_file(file_path,content)
+
+        if save:
+            self.tabs.removeTab(index)
+
     def mk_tab(self, name, file_path, text):
 
         if file_path in self.open_tabs:
@@ -328,9 +337,35 @@ class MainWindow(QWidget):
             new_tab, name
         )  # Creat New Tab and return Tab Index
 
+        self.open_tabs[file_path] = new_tab
+        self.open_files[file_path] = tab_index
+        self.tabs.setCurrentIndex(tab_index)
+
+        tab_index = self.tabs.addTab(
+            new_tab, name
+        )  # Creat New Tab and return Tab Index
+
         self.open_files[file_path] = tab_index
         self.open_tabs[file_path] = new_tab
         self.tabs.setCurrentIndex(tab_index)
+
+        return tab_index
+
+    def on_file_click(self, index):
+        """Handle File Tree Click"""
+        file_info = self.model.fileInfo(index)
+
+        if file_info.isDir():  # If file is Folder then Do nothing
+            return
+
+        file_path = file_info.filePath()
+        file_name = file_info.fileName()
+
+        text = self.file_ops.read_file(file_path)
+        
+        if text:
+            self.mk_tab(file_name, file_path, text)
+    
     
     def get_text(self):
         widget = self.tabs.currentWidget()
@@ -432,7 +467,7 @@ class Editor(QsciScintilla):
 # Menu Manager Class
 # ============================================================================
 class Menumanager(QMenuBar):
-    """Manages menu bar creation and action handling."""
+    """This Class Manages menu bar creation and action handling."""
 
     def __init__(self, parent: QWidget = None):
         super().__init__(parent)
@@ -489,7 +524,7 @@ class FileOps:
         """This Method Open File"""
         file_path, _ = QFileDialog.getOpenFileName(
             self.parent,
-            self.parent.file_filter,
+            filter = self.parent.file_filter,
         )
         file_name = os.path.basename(file_path)
 
@@ -549,7 +584,7 @@ class FileOps:
             return
         
         self.save_file(file_path,content)
-        
+
 
 # =============================================================================
 # Run App
