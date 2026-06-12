@@ -86,7 +86,6 @@ class Window_title(QFrame):
         # Max Button
         self.max_btn = QPushButton("□")
         self.max_btn.clicked.connect(self.toggle_max_restore)
-        self.max_btn.setObjectName("maxbtn")
         layout.addWidget(self.max_btn)
         # Close Button
         self.close_btn = QPushButton("✕")
@@ -234,14 +233,14 @@ class MainWindow(QWidget):
 
         self.splitter = QSplitter()
         self.splitter.setObjectName("splitter")
-        self.splitter.setHandleWidth(0)
+        self.splitter.setHandleWidth(1)
 
         self.splitter.setContentsMargins(0, 0, 0, 0)
 
         self.splitter.addWidget(self.tree)
         self.splitter.addWidget(self.tabs)
 
-        self.splitter.setSizes([200, 900])
+        self.splitter.setSizes([190, 910])
 
     def _setup_layout(self):
         """This Method Setup Layout"""
@@ -311,7 +310,7 @@ class MainWindow(QWidget):
         self.tree.setMinimumWidth(170)
         self.tree.setItemsExpandable(True)
         self.tree.setRootIsDecorated(False)
-        self.tree.setHeaderHidden(False)  # Hide the File Header
+        self.tree.setHeaderHidden(True)  # Hide the File Header
 
     def mk_tab(self, name, file_path, text):
 

@@ -1,16 +1,32 @@
+ #container{
+    background-color: #363636;
+ }
+ 
  /* titlebar styling */
 
 #titlebar{
-    background-color: #1e1e1e;
+    background: #363636;
+    border-left: 1px solid #4a4a4b;
+    border-top: 1px solid #4a4a4b;
+    border-right: 1px solid #4a4a4b;
 }
 
-/* QPushButton Style */
+/*========== QPushButton Style =========== */
 
 QPushButton {
-    background-color: #1e1e1e;
+    background-color: #363636;
     color: white;
     border: none;
-    padding: 6px 15px;
+    padding: 7px 15px;
+}
+QPushButton:hover {
+    background-color: #0e4aff;
+    color: #ffffff;
+}
+
+#closebtn:hover {
+    background-color: #cb1717;
+    color: #ffffff;
 }
 
 /*==================================================
@@ -20,24 +36,22 @@ QPushButton {
 #treeview {
     background-color: #262626;
     color: #A0A0A0;
-    /* border: 1px solid #3f4043; */
     font-family: Consolas;
     padding: 7px 7px;
     font-size: 15px;
     outline: none;
+    border: none;
 
 }
 
 #treeview::item {
     padding: 4px ;
     border-radius: 5px;
-    margin: 2px;
 }
 
 #treeview::item:hover {
     background: #343434;
-    
-    color: #bfbdb6;
+    color: #ffffff;
 }
 
 
@@ -47,5 +61,97 @@ QPushButton {
 }
 
 #treeview::branch:has-parent {
-    background: #262626;
+    border-left: 1px solid #5d5d5d;
+    border-bottom: 1px solid #5d5d5d;
+}
+
+/* ========== splitter ========== */
+#splitter{
+    border: 1px solid #4a4a4b;
+}
+QSplitter::handle{
+    background-color: #4a4a4b;
+}
+#splitter::handle:pressed {
+    background: #00a6ff;
+}
+
+/* =========================
+TABS 
+========================== */
+
+#tabwidget::pane {
+    border: none;
+
+}
+/* ============= Tabs That are not selected ======== */
+
+QTabBar::tab {
+    background: #363636;
+    /* border-top-right-radius: 7px; */
+    /* border-top-left-radius: 7px; */
+    color: #A0A0A0;
+    padding: 8px 17px;
+}
+
+/* ============= Tabs That are selected ======== */
+QTabBar::tab:selected {
+    background: #1e1e1e;
+    border-bottom: 1px solid #00a6ff;
+    color: #dadada;
+
+}
+
+QTabBar::tab:hover {
+    background: #1e1e1e;
+    color: #cdcdcd;
+}
+/* =========================
+   MENU BAR
+========================= */
+
+#menubar {
+    background : transparent ;
+    color: #A0A0A0;
+    border: none;
+}
+
+#menubar::item {
+    background: transparent;
+    padding: 5px 10px;
+}
+
+
+#menubar::item:selected {
+    background-color: #4a4a4b;
+    color: #cdcdcd;
+}
+
+/* =========================
+   MENUS (DROP DOWN)
+========================= */
+QMenu {
+    background-color: #262626;
+    padding: 4px 3px;
+    color: #f0f0f0;
+    border-radius: 7px;
+    border: 1px solid #1b1f29;
+}
+
+QMenu::item {
+    font-size: 13px;
+    margin: 1px 4px;
+    padding: 4px 2px;
+    border-radius: 5px;
+}
+QMenu::separator {
+    height: 1px;
+    background: #292a2c;
+}
+QMenu::item:selected {
+    background: #343434;   /* VS Code hover dark gray */
+}
+
+QMenu::item:pressed {
+    background-color: #343434;
 }
