@@ -16,6 +16,8 @@ from PyQt6.QtWidgets import (
     )
 from PyQt6.QtGui import (
     QAction,
+    QShortcut,
+    QKeySequence,
     QFileSystemModel,
     QColor,
     QFont
@@ -137,6 +139,9 @@ class MainWindow(QWidget):
         self.tree = QTreeView()
         self.tree.setObjectName("treeview")
         self.tree.clicked.connect(self.on_file_click)
+        # en Mode Shortcuts
+        self.fullscreen_shortcut = QShortcut(QKeySequence("F11"), self)
+        self.fullscreen_shortcut.activated.connect(self.zen_mode)
         # My Working Directory
         self.current_working_dir = r"C:\Users\Lenovo\OneDrive\文件\Projects\Text Editor"
         # File dialog filters
@@ -227,7 +232,7 @@ class MainWindow(QWidget):
                 ("Zoom Out", None, "Ctrl+-"),
             ],
             "View": [
-                ("Zen Mode", None, None),
+                ("Zen Mode", self.zen_mode, None),
                 ("Open Terminal", None, "Ctrl+'"),
                 "separator",
                 ("Toggle Sidebar", None, None),
@@ -339,14 +344,6 @@ class MainWindow(QWidget):
 
         self.open_tabs[file_path] = new_tab
         self.open_files[file_path] = tab_index
-        self.tabs.setCurrentIndex(tab_index)
-
-        tab_index = self.tabs.addTab(
-            new_tab, name
-        )  # Creat New Tab and return Tab Index
-
-        self.open_files[file_path] = tab_index
-        self.open_tabs[file_path] = new_tab
         self.tabs.setCurrentIndex(tab_index)
 
         return tab_index
