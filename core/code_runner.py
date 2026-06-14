@@ -4,10 +4,10 @@ import os,subprocess,sys
 PYTHON_EXE_PATH = sys.executable
 
 
-def run_code(self):
+def run_code(parent):
     """Run the current Python file"""
 
-    file_path = self.get_path()
+    file_path = parent.get_path()
     if not file_path: return
         
     file_dir = os.path.dirname(file_path)

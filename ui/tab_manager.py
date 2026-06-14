@@ -58,12 +58,6 @@ class Tab(QTabWidget):
 
         # ask the user to save or Discard before closing the tab
         reply = QMessageBox.question(self, "Save File", "Do You Want to Save the File Befor Closing? ")
-        # delete the file track 
-        if file_path in self.open_tabs:
-            del self.open_tabs[file_path]
-
-        if file_path in self.open_files:
-            del self.open_files[file_path]
         # if the user answer is no, then close
         # tab without saving
         if reply == QMessageBox.StandardButton.No:
@@ -75,6 +69,13 @@ class Tab(QTabWidget):
         if save:
             self.removeTab(index)
 
+        # delete the file track 
+        if file_path in self.open_tabs:
+            del self.open_tabs[file_path]
+
+        if file_path in self.open_files:
+            del self.open_files[file_path]
+            
     def get_text(self):
         widget = self.currentWidget()
 

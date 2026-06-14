@@ -213,7 +213,7 @@ class MainWindow(QWidget):
                 ("Toggle Sidebar", None, None),
             ],
             "Run": [
-                ("Run Code",run_code, "Ctrl+R"),
+                ("Run Code",lambda: run_code(self.tabs), "Ctrl+R"),
                 ("Debug Code", None, None),
             ],
         }

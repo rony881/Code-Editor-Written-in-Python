@@ -13,15 +13,15 @@ class FileOps:
 
         # File dialog filters
         self.file_filter = (
-            "All Files (*.*);"
-            "Python Files (*.py);"
-            "C++ Files (*.cpp);"
-            "C Files (*.c);"
-            "QSS Files (*.qss);"
-            "Java Files (*.java);"
-            "Javascript (*.js);"
-            "HTML (*.html);"
-            "Readme File (*.md)"
+            "All Files (*.*);;"
+            "Python Files (*.py);;"
+            "C++ Files (*.cpp);;"
+            "C Files (*.c);;"
+            "QSS Files (*.qss);;"
+            "Java Files (*.java);;"
+            "JavaScript Files (*.js);;"
+            "HTML Files (*.html);;"
+            "Markdown Files (*.md)"
         )
 
     def read_file(self,file_path):
@@ -46,13 +46,15 @@ class FileOps:
         
         return True
 
-    def open_file(self,file_path,file_name):
+    def open_file(self, file_path = None, file_name = None):
         """This Method Open File"""
         
         if not file_path and not file_name:
             file_path, _ = QFileDialog.getOpenFileName(
                 self.parent,
-                filter = self.file_filter,
+                "Open File",
+                "",
+                self.file_filter
             )
         file_name = os.path.basename(file_path)
 
@@ -62,7 +64,7 @@ class FileOps:
         self.parent.path = file_path
 
         text = self.read_file(file_path)
-        if text:
+        if text is not None:
             self.parent.tabs.open_tab(file_name, file_path, text)
 
 
@@ -73,7 +75,7 @@ class FileOps:
         if not file_path:
             return
 
-        self.parent.tabs.mk_tree(file_path)
+        self.parent.mk_tree(file_path)
 
     def new_file(self):
         name = "Untitled.py"
