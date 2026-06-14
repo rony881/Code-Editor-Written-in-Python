@@ -171,6 +171,7 @@ class MainWindow(QWidget):
 
     def on_file_click(self, index):
         """Handle File Tree Click"""
+
         file_info = self.model.fileInfo(index)
 
         if file_info.isDir():  # If file is Folder then Do nothing
@@ -179,10 +180,7 @@ class MainWindow(QWidget):
         file_path = file_info.filePath()
         file_name = file_info.fileName()
 
-        content = self.file_ops.read_file(file_path)
-        
-        if content:
-            self.tabs.open_tab(file_name, file_path, content)
+        self.file_ops.open_file(file_path,file_name)
 
     def _setup_menubar(self):
         """This method setup MenuBar"""

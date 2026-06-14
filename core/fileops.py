@@ -49,10 +49,11 @@ class FileOps:
     def open_file(self,file_path,file_name):
         """This Method Open File"""
         
-        file_path, _ = QFileDialog.getOpenFileName(
-            self.parent,
-            filter = self.file_filter,
-        )
+        if not file_path and not file_name:
+            file_path, _ = QFileDialog.getOpenFileName(
+                self.parent,
+                filter = self.file_filter,
+            )
         file_name = os.path.basename(file_path)
 
         if not file_path:
@@ -63,7 +64,7 @@ class FileOps:
         text = self.read_file(file_path)
         if text:
             self.parent.tabs.open_tab(file_name, file_path, text)
-            print(f"{file_name} was opened")
+
 
     def open_folder(self):
         """This Method Open Folder"""
