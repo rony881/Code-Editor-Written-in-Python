@@ -1,5 +1,8 @@
-from config import PYTHON_EXE_PATH
-import os,subprocess
+import os,subprocess,sys
+
+# Python Exe Path
+PYTHON_EXE_PATH = sys.executable
+
 
 def run_code(self):
     """Run the current Python file"""
