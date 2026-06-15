@@ -18,7 +18,6 @@ class Tab(QTabWidget):
 
         # This Will Keep tarck of Opened Tabs and Files
         self.open_tabs = {}
-        self.open_files = {}
 
         # when user request for closing the tab this code 
         # connects to close tab method
@@ -42,7 +41,6 @@ class Tab(QTabWidget):
         tab_index = self.addTab(new_tab, tab_title)
         # saving the file and tab open to the list
         self.open_tabs[file_path] = new_tab
-        self.open_files[file_path] = tab_index
         self.setCurrentIndex(tab_index)
 
         return tab_index
@@ -72,9 +70,6 @@ class Tab(QTabWidget):
         # delete the file track 
         if file_path in self.open_tabs:
             del self.open_tabs[file_path]
-
-        if file_path in self.open_files:
-            del self.open_files[file_path]
             
     def get_text(self):
         widget = self.currentWidget()

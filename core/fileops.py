@@ -61,8 +61,6 @@ class FileOps:
         if not file_path:
             return
         
-        self.parent.path = file_path
-
         text = self.read_file(file_path)
         if text is not None:
             self.parent.tabs.open_tab(file_name, file_path, text)
@@ -85,7 +83,7 @@ class FileOps:
 
         counter = 1
         while path in self.parent.tabs.open_tabs:
-            path = os.path.join(self.parent.current_working_dir, f"Untitled{counter}.py")
+            path = os.path.join(self.parent.current_working_dir, f"Untitled-{counter}.py")
             counter += 1
 
         self.parent.tabs.open_tab(os.path.basename(path), path, text)
