@@ -1,3 +1,5 @@
+import os
+
 from PyQt6.QtWidgets import (
     QWidget,
     QFrame,
@@ -127,7 +129,9 @@ class MainWindow(QWidget):
         self.fullscreen_shortcut = QShortcut(QKeySequence("F11"), self)
         self.fullscreen_shortcut.activated.connect(self.zen_mode)
         # My Working Directory
-        self.current_working_dir = r"C:\Users\Lenovo\OneDrive\文件\Projects\Text Editor"
+        self.current_working_dir = os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))
+        )
 
         # ======== Window Setup =========
         self._setup_menubar()

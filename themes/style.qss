@@ -61,9 +61,12 @@ QPushButton:hover {
 }
 
 #treeview::branch:has-parent {
-    border-left: 1px solid #5d5d5d;
-    border-bottom: 1px solid #5d5d5d;
+    border-right: 1px solid #5d5d5d;
 }
+/* #treeview::item:has-children {
+    color : #ffffff
+} */
+
 
 /* ========== splitter ========== */
 #splitter{

@@ -1,7 +1,8 @@
-from PyQt6.QtWidgets import QTabWidget,QMessageBox
+import os
+
+from PyQt6.QtWidgets import QTabWidget, QMessageBox
 
 from editor.code_editor import Editor
-
 class Tab(QTabWidget):
     """ This Class Handles Open Tab, Current Tab Logic  """
 
@@ -35,7 +36,7 @@ class Tab(QTabWidget):
 
         new_tab = Editor()
         new_tab.setText(content)
-        # seting the file path with that tab 
+        # setting the file path with that tab 
         new_tab.file_path = file_path
         # Creat New Tab and return Tab Index
         tab_index = self.addTab(new_tab, tab_title)
@@ -60,23 +61,24 @@ class Tab(QTabWidget):
         # tab without saving
         if reply == QMessageBox.StandardButton.No:
             self.removeTab(index)
+            if file_path in self.open_tabs:
+                del self.open_tabs[file_path]
             return
 
-        save = self.parent.file_ops.write_file(file_path,content)
+        if not self.parent.file_ops.save_file(file_path, content):
+            return
 
-        if save:
-            self.removeTab(index)
-
-        # delete the file track 
+        file_path = widget.file_path
+        self.removeTab(index)
         if file_path in self.open_tabs:
             del self.open_tabs[file_path]
-            
+
     def get_text(self):
         widget = self.currentWidget()
 
         return widget.text() if widget else ""
     
     def get_path(self):
-        widget = self.currentWidget()
+        widget = self.currentWidget()     
 
         return widget.file_path if widget else None
