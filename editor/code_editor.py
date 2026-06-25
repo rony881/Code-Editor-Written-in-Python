@@ -59,7 +59,7 @@ class Editor(QsciScintilla):
 
         lexer = QsciLexerPython(self)
 
-        font = QFont(DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE)  # Editor's Default Font
+        font = QFont(DEFAULT_FONT_NAME)  # Editor's Default Font
         lexer.setDefaultFont(font)
 
         # Backgorund and Foreground Colors of Editor

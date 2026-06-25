@@ -17,7 +17,7 @@ QPushButton {
     background-color: #363636;
     color: white;
     border: none;
-    padding: 7px 15px;
+    padding: 9px 15px;
 }
 QPushButton:hover {
     background-color: #0e4aff;
@@ -63,9 +63,9 @@ QPushButton:hover {
 #treeview::branch:has-parent {
     border-right: 1px solid #5d5d5d;
 }
-/* #treeview::item:has-children {
-    color : #ffffff
-} */
+#treeview::item:has-children {
+    color : #fefefe
+}
 
 
 /* ========== splitter ========== */
@@ -126,8 +126,8 @@ QTabBar::tab:hover {
 
 
 #menubar::item:selected {
-    background-color: #4a4a4b;
-    color: #cdcdcd;
+    background-color: transparent;
+    color: #fefefe;
 }
 
 /* =========================
@@ -157,4 +157,11 @@ QMenu::item:selected {
 
 QMenu::item:pressed {
     background-color: #343434;
+}
+
+QWidget{
+    border: none;
+}
+QLabel{
+    border: none;
 }
