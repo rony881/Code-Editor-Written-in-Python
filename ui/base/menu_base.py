@@ -8,7 +8,6 @@ from PyQt6.QtWidgets import QMenu, QMenuBar
 # Menu Manager | File | Edit | View | Settings | About | Help |
 # ============================================================================
 
-
 @dataclass
 class MenuItem:
     """One entry in a menu. Use `None` in a menu's item list for a separator."""
@@ -20,29 +19,8 @@ class MenuItem:
 # structure passed to Menumanager.build()
 MenuStructure = dict[str, list[Optional[MenuItem]]]
 
-
 class MenuBaseWidget(QMenuBar):
-    """Builds the menu bar from a declarative structure.
-
-    Usage:
-        structure = {
-            "File": [
-                MenuItem("New", handler=win.new_file, shortcut="Ctrl+N"),
-                MenuItem("Save", handler=win.save_file, shortcut="Ctrl+S"),
-                None,  # separator
-                MenuItem("Exit", handler=win.close, shortcut="Ctrl+Q"),
-            ],
-            "View": [
-                MenuItem("Show Sidebar", handler=win.toggle_sidebar,
-                          checkable=True, checked=True),
-            ],
-        }
-        menu_manager.build(structure)
-
-    Every QAction is kept in a lookup table so you can grab it later,
-    e.g. to enable/disable or re-check it at runtime:
-        menu_manager.action("File/Save").setEnabled(False)
-    """
+    """Builds the menu bar from a declarative structure."""
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -52,6 +30,8 @@ class MenuBaseWidget(QMenuBar):
     def build(self, structure: MenuStructure) -> None:
         for menu_name, items in structure.items():
             menu = self.add_menu(menu_name)
+            if menu is None:
+                return
             for item in items:
                 if item is None:
                     menu.addSeparator()
@@ -75,9 +55,6 @@ class MenuBaseWidget(QMenuBar):
         action = QAction(item.name, self)
         if item.shortcut:
             action.setShortcut(QKeySequence(item.shortcut))
-        if item.checkable:
-            action.setCheckable(True)
-            action.setChecked(item.checked)
         if item.handler:
             action.triggered.connect(item.handler)
 
