@@ -1,4 +1,5 @@
 from ui.base.menu_base import MenuBaseWidget, MenuItem, MenuStructure
+from ui.themes.color_theme import APP_MENUBAR_STYLE
 
 
 class EditorMenuBar(MenuBaseWidget):
@@ -9,6 +10,7 @@ class EditorMenuBar(MenuBaseWidget):
         super().__init__(parent)
         self.main_window = window
         self.build(self._structure())
+        self.setStyleSheet(APP_MENUBAR_STYLE)
 
     def _structure(self) -> MenuStructure:
         win = self.main_window
@@ -31,7 +33,7 @@ class EditorMenuBar(MenuBaseWidget):
                 MenuItem("Copy", handler=win.copy, shortcut="Ctrl+C"),
                 MenuItem("Paste", handler=win.paste, shortcut="Ctrl+V"),
                 None,
-                MenuItem("Find...", handler=win.find, shortcut="Ctrl+F"),
+                MenuItem("Find...", handler=win.find_, shortcut="Ctrl+F"),
                 MenuItem("Replace...", handler=win.replace, shortcut="Ctrl+H"),
                 MenuItem("Go to Line...", handler=win.go_to_line, shortcut="Ctrl+G"),
             ],
