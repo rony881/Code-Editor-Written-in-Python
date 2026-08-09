@@ -8,7 +8,7 @@ from ui.components.panels.right_panel import RightPanel
 
 class CentralWidget(QWidget):
     """
-    Owns the main splitter: LeftPanel (explorer) | CentralPanel (editor) | RightPanel (agent).
+    Owns the main splitter: LeftPanel (explorer, git) | CentralPanel (editor) | RightPanel (agent).
     """
 
     def __init__(self, parent=None) -> None:

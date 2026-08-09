@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QVBoxLayout, QWidget, QLayout
 from PyQt6.QtCore import Qt
 
 class BaseWidget(QWidget):
@@ -10,7 +10,7 @@ class BaseWidget(QWidget):
         self.main_layout.setContentsMargins(0, 0, 0, 0)
 
     def add(self, item):
-        if isinstance(item, QVBoxLayout):
+        if isinstance(item, QLayout):
             self.main_layout.addLayout(item)
         elif isinstance(item, QWidget):
             self.main_layout.addWidget(item)

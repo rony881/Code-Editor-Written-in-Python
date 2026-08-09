@@ -12,6 +12,6 @@ class RightPanel(BaseWidget):
         self.setMinimumWidth(260)
         self.setMaximumWidth(480)
 
-        title = QLabel("AGENT")
+        title = QLabel("AGENT - COMING SOON")
         title.setObjectName("sidebarTitle")
         self.add(title)
