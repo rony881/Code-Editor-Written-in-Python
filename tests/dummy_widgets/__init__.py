@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from ui.BaseWidgets import BaseWidget
+from ui.BaseWidgets.widget_base import BaseWidget
 
 
 class DummySidePanel(BaseWidget):

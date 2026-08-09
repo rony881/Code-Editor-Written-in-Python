@@ -1,4 +1,4 @@
 # Apllication Window Configerations
-WINDOW_WIDTH = 900
-WINDOW_HEIGHT = 600
+WINDOW_WIDTH = 1080
+WINDOW_HEIGHT = 720
 WINDOW_LOGO = "resources/icons/logo.png"
