@@ -9,18 +9,12 @@ class BaseWidget(QWidget):
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.setStyleSheet(
-            """
-            QWidget#panel {
-                background-color: red;
-                border: 1px solid gray;
-                border-radius: 60px;
-            }
-            """
-        )
-
     def add(self, item):
         if isinstance(item, QVBoxLayout):
             self.main_layout.addLayout(item)
         elif isinstance(item, QWidget):
             self.main_layout.addWidget(item)
+        else:
+            raise TypeError(
+                f"BaseWidget.add() expects a QWidget or QVBoxLayout, got {type(item).__name__}"
+            )

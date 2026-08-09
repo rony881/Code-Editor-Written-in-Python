@@ -7,6 +7,8 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+from qfluentwidgets import CaptionLabel, PrimaryPushButton
+
 from ui.BaseWidgets.widget_base import BaseWidget
 
 
