@@ -13,6 +13,11 @@ QMainWindow {
     background-color: #0d1117;
     color: #c9d1d9;
 }
+QWidget#activity_bar {
+    background-color: #161b22;
+    border-top: 1px solid #21262d;
+
+}
 QMenuBar {
     background-color: #161b22;
     color: #c9d1d9;

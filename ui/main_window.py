@@ -27,6 +27,9 @@ class MainWindow(QMainWindow):
         self.central_widget = CentralWidget()
         self.setCentralWidget(self.central_widget)
 
+    def setPanelToLeft(self, panel_name):
+        self.central_widget.setPanelToLeft(panel_name)
+
     # File / Edit / View / Settings / About / Help methods unchanged below...
 
     # ─────────────────────────────────────────────
