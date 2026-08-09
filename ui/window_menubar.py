@@ -1,4 +1,4 @@
-from ui.base.menu_base import MenuBaseWidget, MenuItem, MenuStructure
+from ui.BaseWidgets.menu_base import MenuBaseWidget, MenuItem, MenuStructure
 from ui.themes.color_theme import APP_MENUBAR_STYLE
 
 
@@ -6,9 +6,9 @@ class EditorMenuBar(MenuBaseWidget):
     """
     Menu bar for a code editor: File | Edit | View | Settings | About | Help
     """
-    def __init__(self, window, parent=None):
+    def __init__(self, parent):
         super().__init__(parent)
-        self.main_window = window
+        self.main_window = parent
         self.build(self._structure())
         self.setStyleSheet(APP_MENUBAR_STYLE)
 
