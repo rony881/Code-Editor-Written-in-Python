@@ -1,7 +1,11 @@
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtWidgets import QMainWindow, QSplitter, QVBoxLayout
+from PyQt6.QtCore import Qt
 
 from app.config import WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
+from ui.components.panels.central_panel import CentralPanel
+from ui.components.panels.left_panel import LeftPanel
+from ui.components.panels.right_panel import RightPanel
 from ui.components.widgets.central_widget import CentralWidget
 from ui.themes.color_theme import DARK_STYLESHEET
 from ui.window_menubar import EditorMenuBar
@@ -21,14 +25,31 @@ class MainWindow(QMainWindow):
         self.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
         self.setStyleSheet(DARK_STYLESHEET)
 
+        #============= Menu Bar ===============
         self.menu_bar = EditorMenuBar(parent=self)
         self.setMenuBar(self.menu_bar)
 
-        self.central_widget = CentralWidget()
-        self.setCentralWidget(self.central_widget)
+        #============= Main Layout ============
+        # self.main_layout = QVBoxLayout(self)
+        # self.main_layout.setContentsMargins(0, 0, 0, 0)
+        # self.main_layout.setSpacing(0)
 
-    def setPanelToLeft(self, panel_name):
-        self.central_widget.setPanelToLeft(panel_name)
+        #============== Main Window Splitter ===========================
+        # This splitter container widget would contain 3 panels-
+        # left,right and the contral panel. 
+        self.splitter_container = QSplitter(Qt.Orientation.Horizontal)
+        self.splitter_container.setSizes([260, 900, 280])
+        self.setCentralWidget(self.splitter_container)
+
+        self.left_panel = LeftPanel()
+        self.splitter_container.addWidget(self.left_panel)
+        
+        self.central_panel = CentralPanel()
+        self.splitter_container.addWidget(self.central_panel)
+        
+        self.right_panel = RightPanel()
+        self.splitter_container.addWidget(self.right_panel)
+
 
     # File / Edit / View / Settings / About / Help methods unchanged below...
 

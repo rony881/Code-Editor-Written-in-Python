@@ -7,4 +7,4 @@ class TerminalPanel(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("terminal_panel")
-        self.add(QLabel("Terminal panel — coming soon"))
+        self.add(QLabel("TERMINAL PANEL — COMING SOON"))

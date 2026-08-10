@@ -7,4 +7,4 @@ class AgentPanel(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("agent_panel")
-        self.add(QLabel("Agent panel — coming soon"))
+        self.add(QLabel("AGENT PANEL — COMING SOON"))
