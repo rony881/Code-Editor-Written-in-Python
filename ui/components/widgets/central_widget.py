@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QSplitter, QVBoxLayout, QWidget
 from ui.components.panels.central_panel import CentralPanel
 from ui.components.panels.left_panel import LeftPanel
 from ui.components.panels.right_panel import RightPanel
-from ui.components.widgets.status_bar import ActivityBar
+from ui.components.widgets.status_bar import StatusBar
 
 
 class CentralWidget(QWidget):
@@ -22,7 +22,7 @@ class CentralWidget(QWidget):
         self.splitter = QSplitter(Qt.Orientation.Horizontal)
         layout.addWidget(self.splitter, 1)
 
-        self.activity_bar = ActivityBar()
+        self.activity_bar = StatusBar()
         layout.addWidget(self.activity_bar)
 
         self.left_panel = LeftPanel()

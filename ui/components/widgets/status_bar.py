@@ -4,7 +4,7 @@ from ui.BaseWidgets.custom_button import CustomButton
 from ui.BaseWidgets.widget_base import BaseWidget
 
 
-class ActivityBar(BaseWidget):
+class StatusBar(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("activity_bar")
