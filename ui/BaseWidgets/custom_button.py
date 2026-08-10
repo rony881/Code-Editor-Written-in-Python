@@ -27,6 +27,6 @@ class CustomButton(QPushButton):
         }
 
         QPushButton#custom_button:pressed {
-            background: #1f6feb;
+            background: #21262d;
         }
         """
