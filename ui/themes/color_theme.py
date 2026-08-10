@@ -222,7 +222,7 @@ QScrollBar::handle:horizontal {
 }
 QScrollBar::handle:horizontal:hover { background: #484f58; }
 QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal { width: 0; }
-QLabel#sidebarTitle {
+QLabel {
     color: #8b949e;
     font-size: 11px;
     font-weight: 700;
