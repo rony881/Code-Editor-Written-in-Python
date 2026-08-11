@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QMainWindow, QSplitter, QVBoxLayout
 from PyQt6.QtCore import Qt
 
 from app.config import WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
+from ui.BaseWidgets.widget_base import BaseWidget
 from ui.components.panels.central_panel import CentralPanel
 from ui.components.panels.left_panel import LeftPanel
 from ui.components.panels.right_panel import RightPanel
@@ -29,17 +30,16 @@ class MainWindow(QMainWindow):
         self.menu_bar = EditorMenuBar(parent=self)
         self.setMenuBar(self.menu_bar)
 
-        #============= Main Layout ============
-        # self.main_layout = QVBoxLayout(self)
-        # self.main_layout.setContentsMargins(0, 0, 0, 0)
-        # self.main_layout.setSpacing(0)
+        #============= Central Widget ============
+        self.central_widget = BaseWidget()
+        self.setCentralWidget(self.central_widget)
 
         #============== Main Window Splitter ===========================
         # This splitter container widget would contain 3 panels-
         # left,right and the contral panel. 
         self.splitter_container = QSplitter(Qt.Orientation.Horizontal)
         self.splitter_container.setSizes([260, 900, 280])
-        self.setCentralWidget(self.splitter_container)
+        self.central_widget.add(self.splitter_container)
 
         self.left_panel = LeftPanel()
         self.splitter_container.addWidget(self.left_panel)
