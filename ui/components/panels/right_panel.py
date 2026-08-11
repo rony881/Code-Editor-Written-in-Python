@@ -5,10 +5,6 @@ from ui.BaseWidgets.widget_base import BaseWidget
 from ui.components.widgets.agent_panel import AgentPanel
 from ui.components.widgets.terminal_panel import TerminalPanel
 
-Panels = {
-    "Agent Panel": 0,
-    "Terminal Panel": 1,
-}
 
 class RightPanel(BaseWidget):
     """Right-hand agent/assistant panel."""
@@ -28,6 +24,11 @@ class RightPanel(BaseWidget):
         self.terminal_panel = TerminalPanel()
         self.stack.addWidget(self.terminal_panel)
 
+        self._panels = {
+            "Agent Panel": 0,
+            "Terminal Panel": 1,
+        }
+
         self.btn_area = QHBoxLayout()
         self.add(self.btn_area)
 
@@ -40,6 +41,9 @@ class RightPanel(BaseWidget):
         self.btn_area.addWidget(agent_btn)
         self.btn_area.addWidget(terminal_btn)
 
+    def get_panel_index(self, panel_name: str) -> int:
+        return self._panels[panel_name]
+
     def showPanel(self, panel_name: str):
-        index = Panels[panel_name]
+        index = self.get_panel_index(panel_name)
         self.stack.setCurrentIndex(index)
