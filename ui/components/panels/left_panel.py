@@ -5,11 +5,6 @@ from ui.BaseWidgets.widget_base import BaseWidget
 from ui.components.widgets.file_explorer import FileExplorer
 from ui.components.widgets.git_panel import GitPanel
 
-Panels = {
-    "File Explorer": 0,
-    "Git Panel": 1,
-}
-
 class LeftPanel(BaseWidget):
     """Sidebar file explorer panel."""
     def __init__(self, parent=None) -> None:
@@ -27,6 +22,11 @@ class LeftPanel(BaseWidget):
         self.git_panel = GitPanel()
         self.stack.addWidget(self.git_panel)
 
+        self._panels = {
+            "File Explorer": 0,
+            "Git Panel": 1,
+        }
+
         self.btn_area = QHBoxLayout()
         self.add(self.btn_area)
 
@@ -38,7 +38,11 @@ class LeftPanel(BaseWidget):
 
         self.btn_area.addWidget(explorer_btn)
         self.btn_area.addWidget(git_btn)
-        
+        self.btn_area.addStretch()
+
+    def get_panel_index(self, panel_name: str) -> int:
+        return self._panels[panel_name]
+
     def showPanel(self, panel_name: str):
-        index = Panels[panel_name]
+        index = self.get_panel_index(panel_name)
         self.stack.setCurrentIndex(index)
