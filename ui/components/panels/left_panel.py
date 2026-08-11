@@ -2,16 +2,12 @@ from PyQt6.QtWidgets import QHBoxLayout, QStackedWidget
 
 from ui.BaseWidgets.custom_button import CustomButton
 from ui.BaseWidgets.widget_base import BaseWidget
-from ui.components.widgets.agent_panel import AgentPanel
 from ui.components.widgets.file_explorer import FileExplorer
 from ui.components.widgets.git_panel import GitPanel
-from ui.components.widgets.terminal_panel import TerminalPanel
 
 Panels = {
     "File Explorer": 0,
     "Git Panel": 1,
-    "Agent Panel": 2,
-    "Terminal Panel": 3,
 }
 
 class LeftPanel(BaseWidget):
@@ -31,12 +27,6 @@ class LeftPanel(BaseWidget):
         self.git_panel = GitPanel()
         self.stack.addWidget(self.git_panel)
 
-        self.agent_panel = AgentPanel()
-        self.stack.addWidget(self.agent_panel)
-
-        self.terminal_panel = TerminalPanel()
-        self.stack.addWidget(self.terminal_panel)
-
         self.btn_area = QHBoxLayout()
         self.add(self.btn_area)
 
@@ -45,17 +35,9 @@ class LeftPanel(BaseWidget):
         
         git_btn = CustomButton("G")
         git_btn.clicked.connect(lambda: self.showPanel("Git Panel"))
-        
-        agent_btn = CustomButton("A")
-        agent_btn.clicked.connect(lambda: self.showPanel("Agent Panel"))
-        
-        terminal_btn = CustomButton("T")
-        terminal_btn.clicked.connect(lambda: self.showPanel("Terminal Panel"))
 
         self.btn_area.addWidget(explorer_btn)
         self.btn_area.addWidget(git_btn)
-        self.btn_area.addWidget(agent_btn)
-        self.btn_area.addWidget(terminal_btn)
         
     def showPanel(self, panel_name: str):
         index = Panels[panel_name]
