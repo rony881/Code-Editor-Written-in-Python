@@ -50,6 +50,9 @@ class MainWindow(QMainWindow):
         self.right_panel = RightPanel()
         self.splitter_container.addWidget(self.right_panel)
 
+    def showPanelToLeft(self, panel_name):
+        self.left_panel.showPanel(panel_name)
+
 
     # File / Edit / View / Settings / About / Help methods unchanged below...
 
