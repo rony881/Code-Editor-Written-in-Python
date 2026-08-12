@@ -7,7 +7,7 @@ from ui.BaseWidgets.widget_base import BaseWidget
 from ui.components.panels.central_panel import CentralPanel
 from ui.components.panels.left_panel import LeftPanel
 from ui.components.panels.right_panel import RightPanel
-from ui.components.widgets.central_widget import CentralWidget
+from ui.main_statusbar import StatusBar
 from ui.themes.color_theme import DARK_STYLESHEET
 from ui.window_menubar import EditorMenuBar
 
@@ -49,6 +49,11 @@ class MainWindow(QMainWindow):
         
         self.right_panel = RightPanel()
         self.splitter_container.addWidget(self.right_panel)
+
+        #============= Status Bar ============
+        self.status_bar = StatusBar(self)
+        self.setStatusBar(self.status_bar)
+        self.status_bar.showMessage("BUTTONS COMING SOON")
 
     def showPanelToLeft(self, panel_name):
         self.left_panel.showPanel(panel_name)
