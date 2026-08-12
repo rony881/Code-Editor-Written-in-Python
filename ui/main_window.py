@@ -2,7 +2,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QSplitter, QVBoxLayout
 from PyQt6.QtCore import Qt
 
-from app.config import WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
+from app.config import STYLE_SHEET_FILE, WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
 from ui.BaseWidgets.widget_base import BaseWidget
 from ui.components.panels.central_panel import CentralPanel
 from ui.components.panels.left_panel import LeftPanel
@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("PyCode")
         self.setWindowIcon(QIcon(WINDOW_LOGO))
         self.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.setStyleSheet(DARK_STYLESHEET)
+        self.setStyleSheet(self.read_style_sheet())
 
         #============= Menu Bar ===============
         self.menu_bar = EditorMenuBar(parent=self)
@@ -58,6 +58,10 @@ class MainWindow(QMainWindow):
     def showPanelToLeft(self, panel_name):
         self.left_panel.showPanel(panel_name)
 
+    def read_style_sheet(self, styleSheetFile: str=STYLE_SHEET_FILE) -> str:
+        with open(styleSheetFile, "r", encoding="utf-8") as file:
+            style_sheet = file.read()
+        return style_sheet
 
     # File / Edit / View / Settings / About / Help methods unchanged below...
 
