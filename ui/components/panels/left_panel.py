@@ -16,7 +16,7 @@ class LeftPanel(BaseWidget):
         self.stack = QStackedWidget()
         self.add(self.stack)
         
-        self.file_explorer = FileExplorer()
+        self.file_explorer = FileExplorer(parent=self)
         self.stack.addWidget(self.file_explorer)
         
         self.git_panel = GitPanel()
