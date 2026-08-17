@@ -12,6 +12,14 @@ class StatusBar(QStatusBar):
         self.left_panel_buttons = LeftPanelButtons(self)
         self.addWidget(self.left_panel_buttons)
 
+        space = BaseWidget(self)
+        space.setFixedWidth(200)
+        self.addWidget(space)
+        
+        self.right_panel_buttons = RightPanelButtons(self)
+        self.addWidget(self.right_panel_buttons)
+
+
 class LeftPanelButtons(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -27,3 +35,20 @@ class LeftPanelButtons(BaseWidget):
         
     def setGitBtnConn(self, func):
         self.git_btn.clicked.connect(func)
+
+
+class RightPanelButtons(BaseWidget):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+
+        self.agent_btn = CustomButton("A")
+        self.add(self.agent_btn)
+
+        self.terminal_btn = CustomButton("T")
+        self.add(self.terminal_btn)
+
+    def setAgentBtnConn(self, func):
+        self.agent_btn.clicked.connect(func)
+
+    def setTerminalBtnConn(self, func):
+        self.terminal_btn.clicked.connect(func)
