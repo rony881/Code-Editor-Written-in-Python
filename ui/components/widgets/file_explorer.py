@@ -16,13 +16,9 @@ class FileExplorer(BaseWidget):
         self.file_tree_view = FileTreeView(self)
         self.file_tree_view.file_selected.connect(self.file_selected)
         
-        self.change_folder_btn = QPushButton("Change Folder", self)
-        self.change_folder_btn.clicked.connect(self._on_change_folder)
-
-        self.add(self.change_folder_btn)
         self.add(self.file_tree_view)
 
-    def _on_change_folder(self):
+    def browse_folder(self):
         self.file_tree_view.browse_folder()
 
 

@@ -14,8 +14,9 @@ class EditorMenuBar(MenuBaseWidget):
         win = self.main_window
         return {
             "File": [
-                MenuItem("New", handler=win.new_file, shortcut="Ctrl+N"),
-                MenuItem("Open...", handler=win.open_file, shortcut="Ctrl+O"),
+                MenuItem("New File", handler=win.new_file, shortcut="Ctrl+N"),
+                MenuItem("Open File", handler=win.open_file, shortcut="Ctrl+O"),
+                MenuItem("Open Folder", handler=win.browse_folder, shortcut="Ctrl+N"),
                 MenuItem("Save", handler=win.save_file, shortcut="Ctrl+S"),
                 MenuItem("Save As...", handler=win.save_file_as, shortcut="Ctrl+Shift+S"),
                 None,

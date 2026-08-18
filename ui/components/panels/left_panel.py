@@ -25,6 +25,9 @@ class LeftPanel(BaseWidget):
             "git": 1,
         }
 
+    def browse_folder(self):
+        self.file_explorer.browse_folder()
+
     def get_panel_index(self, panel_name: str) -> int:
         return self._panels[panel_name]
 

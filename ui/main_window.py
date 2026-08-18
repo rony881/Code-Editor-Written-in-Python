@@ -89,6 +89,10 @@ class MainWindow(QMainWindow):
         """Open a file."""
         pass
 
+    def browse_folder(self):
+        """Open a folder."""
+        self.left_panel.browse_folder()
+
     def save_file(self):
         """Save the current file."""
         pass
