@@ -1,6 +1,4 @@
-from PyQt6.QtWidgets import QHBoxLayout, QStackedWidget
-
-from ui.BaseWidgets.custom_button import CustomButton
+from PyQt6.QtWidgets import QStackedWidget
 from ui.BaseWidgets.widget_base import BaseWidget
 from ui.components.widgets.file_explorer import FileExplorer
 from ui.components.widgets.git_panel import GitPanel
@@ -26,19 +24,6 @@ class LeftPanel(BaseWidget):
             "File Explorer": 0,
             "Git Panel": 1,
         }
-
-        self.btn_area = QHBoxLayout()
-        self.add(self.btn_area)
-
-        explorer_btn = CustomButton("E")
-        explorer_btn.clicked.connect(lambda: self.showPanel("File Explorer"))
-        
-        git_btn = CustomButton("G")
-        git_btn.clicked.connect(lambda: self.showPanel("Git Panel"))
-
-        self.btn_area.addWidget(explorer_btn)
-        self.btn_area.addWidget(git_btn)
-        self.btn_area.addStretch()
 
     def get_panel_index(self, panel_name: str) -> int:
         return self._panels[panel_name]
