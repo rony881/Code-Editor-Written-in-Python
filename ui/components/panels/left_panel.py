@@ -21,8 +21,8 @@ class LeftPanel(BaseWidget):
         self.stack.addWidget(self.git_panel)
 
         self._panels = {
-            "File Explorer": 0,
-            "Git Panel": 1,
+            "explorer": 0,
+            "git": 1,
         }
 
     def get_panel_index(self, panel_name: str) -> int:

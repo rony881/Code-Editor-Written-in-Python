@@ -23,8 +23,8 @@ class RightPanel(BaseWidget):
         self.stack.addWidget(self.terminal_panel)
 
         self._panels = {
-            "Agent Panel": 0,
-            "Terminal Panel": 1,
+            "agent": 0,
+            "terminal": 1,
         }
 
     def get_panel_index(self, panel_name: str) -> int:
