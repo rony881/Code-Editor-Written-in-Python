@@ -53,8 +53,22 @@ class MainWindow(QMainWindow):
         self.status_bar = StatusBar(self)
         self.setStatusBar(self.status_bar)
 
-    def showPanelToLeft(self, panel_name):
-        self.left_panel.showPanel(panel_name)
+        self.status_bar.setGitBtnConn(self.open_git_panel)
+        self.status_bar.setExplorerBtnConn(self.open_explorer_panel)
+        self.status_bar.setAgentBtnConn(self.open_agent_panel)
+        self.status_bar.setTerminalBtnConn(self.open_terminal_panel)
+
+    def open_git_panel(self):
+        self.left_panel.showPanel("git")
+
+    def open_explorer_panel(self):
+        self.left_panel.showPanel("explorer")
+
+    def open_agent_panel(self):
+        self.right_panel.showPanel("agent")
+
+    def open_terminal_panel(self):
+        self.right_panel.showPanel("terminal")
 
     def read_style_sheet(self, styleSheetFile: str=STYLE_SHEET_FILE) -> str:
         with open(styleSheetFile, "r", encoding="utf-8") as file:
