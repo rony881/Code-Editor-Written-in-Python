@@ -28,6 +28,9 @@ class LeftPanel(BaseWidget):
     def browse_folder(self):
         self.file_explorer.browse_folder()
 
+    def explorer_file_selected_conn(self, conn):
+        self.file_explorer.file_selected.connect(conn)
+
     def get_panel_index(self, panel_name: str) -> int:
         return self._panels[panel_name]
 
