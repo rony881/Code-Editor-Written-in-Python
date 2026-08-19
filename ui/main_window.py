@@ -1,8 +1,11 @@
+from pathlib import Path
+
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QSplitter, QVBoxLayout
 from PyQt6.QtCore import Qt
 
 from app.config import STYLE_SHEET_FILE, WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
+from core.file_ops import read_file
 from ui.BaseWidgets.widget_base import BaseWidget
 from ui.components.panels.central_panel import CentralPanel
 from ui.components.panels.left_panel import LeftPanel
@@ -42,6 +45,7 @@ class MainWindow(QMainWindow):
 
         self.left_panel = LeftPanel()
         self.splitter_container.addWidget(self.left_panel)
+        self.left_panel.explorer_file_selected_conn(self.open_file_from_explorer)
         
         self.central_panel = CentralPanel()
         self.splitter_container.addWidget(self.central_panel)
@@ -57,6 +61,10 @@ class MainWindow(QMainWindow):
         self.status_bar.setExplorerBtnConn(self.open_explorer_panel)
         self.status_bar.setAgentBtnConn(self.open_agent_panel)
         self.status_bar.setTerminalBtnConn(self.open_terminal_panel)
+
+    def open_file_from_explorer(self, file_path: str):
+        content, name = read_file(file_path)
+        self.central_panel.add_tab(name, file_path, content)
 
     def open_git_panel(self):
         self.left_panel.showPanel("git")
