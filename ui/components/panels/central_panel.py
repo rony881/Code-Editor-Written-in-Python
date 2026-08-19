@@ -1,24 +1,37 @@
-from PyQt6.QtWidgets import QTabWidget
+from editor.base.base_editor import BaseEditor
+from ui.BaseWidgets.tab_base import TabBase
 
-from ui.BaseWidgets.widget_base import BaseWidget
 
-
-class CentralPanel(BaseWidget):
+class CentralPanel(TabBase):
     """Editor area: tabbed code editors (+ terminal later)."""
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        self.setObjectName("centralPanel")
+        self.setObjectName("editor_panel")
 
-        self.tab_widget = QTabWidget()
-        self.tab_widget.setTabsClosable(True)
-        self.tab_widget.setMovable(True)
-        self.tab_widget.setDocumentMode(True)
-        self.tab_widget.tabCloseRequested.connect(self._close_tab)
-        self.add(self.tab_widget)
+    def add_tab(self, tab_name: str, file_path: str, content: str) -> int | None:
+        """ this method used for open a tab """
+        
+        # check if the file is already open
+        if file_path in self.OPEN_TABS:
+            tab = self.OPEN_TABS[file_path]  # -> tab
+            index = self.indexOf(tab)
+            self.setCurrentIndex(index)
+            return
 
-    def _close_tab(self, index: int) -> None:
-        widget = self.tab_widget.widget(index)
-        self.tab_widget.removeTab(index)
-        if widget is not None:
-            widget.deleteLater()
+        # create a new tab
+        tab = BaseEditor()
+        tab.setText(content)
+        self.addTab(tab, tab_name)
+
+        # setting the file path with that tab 
+        tab.file_path = file_path
+
+        # Creat New Tab and return Tab Index
+        tab_index = self.addTab(tab, tab_name)
+
+        # saving the file and tab open to the list
+        self.OPEN_TABS[file_path] = tab
+        self.setCurrentIndex(tab_index)
+
+        return tab_index
