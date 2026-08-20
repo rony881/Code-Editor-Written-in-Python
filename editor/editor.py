@@ -1,14 +1,12 @@
-
-from posixpath import samefile
-
 from PyQt6.Qsci import QsciScintilla
 from PyQt6.QtGui import QColor, QFont
 
 
 class BaseEditor(QsciScintilla):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, file_path=None):
         super().__init__()
         self.setObjectName("base_editor")
+        self.file_path = file_path
         self._config()
 
     def _config(self):
