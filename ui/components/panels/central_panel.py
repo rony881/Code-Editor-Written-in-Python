@@ -1,4 +1,4 @@
-from editor.base.base_editor import BaseEditor
+from editor.editor import BaseEditor
 from ui.BaseWidgets.tab_base import TabBase
 
 
@@ -20,12 +20,9 @@ class CentralPanel(TabBase):
             return
 
         # create a new tab
-        tab = BaseEditor()
+        tab = BaseEditor(file_path=file_path)
         tab.setText(content)
         self.addTab(tab, tab_name)
-
-        # setting the file path with that tab 
-        tab.file_path = file_path
 
         # Creat New Tab and return Tab Index
         tab_index = self.addTab(tab, tab_name)
