@@ -1,7 +1,5 @@
-from pathlib import Path
-
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow, QSplitter, QVBoxLayout
+from PyQt6.QtWidgets import QMainWindow, QSplitter
 from PyQt6.QtCore import Qt
 
 from app.config import STYLE_SHEET_FILE, WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
@@ -57,6 +55,7 @@ class MainWindow(QMainWindow):
         self.status_bar = StatusBar(self)
         self.setStatusBar(self.status_bar)
 
+        self.status_bar.setLeftPanelToggleBtnConn(self.toggle_left_panel)
         self.status_bar.setGitBtnConn(self.open_git_panel)
         self.status_bar.setExplorerBtnConn(self.open_explorer_panel)
         self.status_bar.setAgentBtnConn(self.open_agent_panel)
@@ -66,6 +65,14 @@ class MainWindow(QMainWindow):
         content, name = read_file(file_path)
         self.central_panel.add_tab(name, file_path, content)
 
+    def toggle_left_panel(self):
+        widget = self.splitter_container.widget(0)
+
+        if widget.isVisible():
+            self._left_panel_width = widget.width()
+        else:
+            widget.setFixedWidth(self._left_panel_width)
+        
     def open_git_panel(self):
         self.left_panel.showPanel("git")
 
