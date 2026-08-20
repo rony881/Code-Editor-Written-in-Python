@@ -38,7 +38,6 @@ class MainWindow(QMainWindow):
         # This splitter container widget would contain 3 panels-
         # left,right and the contral panel. 
         self.splitter_container = QSplitter(Qt.Orientation.Horizontal)
-        self.splitter_container.setSizes([260, 900, 280])
         self.central_widget.add(self.splitter_container)
 
         self.left_panel = LeftPanel()
@@ -51,6 +50,8 @@ class MainWindow(QMainWindow):
         self.right_panel = RightPanel()
         self.splitter_container.addWidget(self.right_panel)
 
+        self.splitter_container.setSizes([260, 900, 220])
+        
         #============= Status Bar ============
         self.status_bar = StatusBar(self)
         self.setStatusBar(self.status_bar)
@@ -66,18 +67,32 @@ class MainWindow(QMainWindow):
         self.central_panel.add_tab(name, file_path, content)
 
     def toggle_left_panel(self):
-        widget = self.splitter_container.widget(0)
-
-        if widget.isVisible():
-            self._left_panel_width = widget.width()
+        if self._left_panel_width() < 5:
+            self.set_left_panel_visible(True)
         else:
-            widget.setFixedWidth(self._left_panel_width)
-        
+            self.set_left_panel_visible(False)
+
+    def _left_panel_width(self) -> int:
+        return self.splitter_container.sizes()[0]
+
+    def set_left_panel_visible(self, visible: bool):
+        sizes = self.splitter_container.sizes()
+    
+        if visible:
+            sizes[0] = 260
+        else:
+            sizes[0] = 0
+        self.splitter_container.setSizes(sizes)
+
     def open_git_panel(self):
         self.left_panel.showPanel("git")
+        if self._left_panel_width() < 5:
+            self.set_left_panel_visible(True)
 
     def open_explorer_panel(self):
         self.left_panel.showPanel("explorer")
+        if self._left_panel_width() < 5:
+            self.set_left_panel_visible(True)
 
     def open_agent_panel(self):
         self.right_panel.showPanel("agent")
