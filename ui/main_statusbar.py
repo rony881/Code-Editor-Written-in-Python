@@ -47,6 +47,11 @@ class StatusBar(QStatusBar):
         self.h_layout.setSpacing(2)
 
         # Left panel buttons
+        self.left_panel_toggle_btn = CustomButton("[ ]")
+        self.left_panel_toggle_btn.setToolTip("Toggle Left Panel")
+        self.left_panel_toggle_btn.setStyleSheet(BUTTON_STYLE)
+        self.h_layout.addWidget(self.left_panel_toggle_btn)
+        
         self.explorer_btn = CustomButton("E")
         self.explorer_btn.setToolTip("Explorer")
         self.explorer_btn.setStyleSheet(BUTTON_STYLE)
@@ -100,6 +105,9 @@ class StatusBar(QStatusBar):
         label.setToolTip(tooltip)
         label.setStyleSheet(LABEL_STYLE)
         return label
+
+    def setLeftPanelToggleBtnConn(self, func):
+        self.left_panel_toggle_btn.clicked.connect(func)
 
     def setExplorerBtnConn(self, func):
         self.explorer_btn.clicked.connect(func)
