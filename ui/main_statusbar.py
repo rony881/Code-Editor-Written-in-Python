@@ -21,9 +21,17 @@ QPushButton:pressed {
 }
 """
 
-LABEL_STYLE = "color: #8b949e; font-size: 12px; padding: 0px 4px;"
+LABEL_STYLE = """
+color: #8b949e;
+font-size: 12px;
+padding: 0px 4px;
+"""
 
-SEPARATOR_STYLE = "QFrame { background-color: #30363d; border: none; }"
+STATUS_MESSAGE_STYLE = """
+color: #c9d1d9;
+font-size: 12px;
+padding: 0px 4px;
+"""
 
 
 class StatusBar(QStatusBar):
@@ -33,74 +41,77 @@ class StatusBar(QStatusBar):
         self.setFixedHeight(30)
         self.setSizeGripEnabled(False)
 
-        # Container widget to hold the status bar content
         self.container_widget = QWidget()
         self.h_layout = QHBoxLayout(self.container_widget)
         self.h_layout.setContentsMargins(4, 0, 4, 0)
         self.h_layout.setSpacing(2)
 
         # Left panel buttons
-        self.left_panel_buttons = LeftPanelButtons()
-        self.h_layout.addWidget(self.left_panel_buttons)
+        self.explorer_btn = CustomButton("E")
+        self.explorer_btn.setToolTip("Explorer")
+        self.explorer_btn.setStyleSheet(BUTTON_STYLE)
+        self.h_layout.addWidget(self.explorer_btn)
+
+        self.git_btn = CustomButton("G")
+        self.git_btn.setToolTip("Source Control")
+        self.git_btn.setStyleSheet(BUTTON_STYLE)
+        self.h_layout.addWidget(self.git_btn)
 
         self.h_layout.addSpacing(8)
 
-        # Status message label
+        # Status message
         self.status_message_label = QLabel("Ready")
-        self.status_message_label.setStyleSheet(
-            "color: #c9d1d9; font-size: 12px; padding: 0px 4px;"
-        )
+        self.status_message_label.setStyleSheet(STATUS_MESSAGE_STYLE)
         self.h_layout.addWidget(self.status_message_label)
 
         self.h_layout.addStretch()
 
-        # Language label
-        self.language_label = QLabel("Plain Text")
-        self.language_label.setToolTip("Language Mode")
-        self.language_label.setStyleSheet(LABEL_STYLE)
+        # Status information
+        self.language_label = self._create_label("Plain Text", "Language Mode")
         self.h_layout.addWidget(self.language_label)
 
-        # Indent label
-        self.indent_label = QLabel("Spaces: 4")
-        self.indent_label.setToolTip("Indentation")
-        self.indent_label.setStyleSheet(LABEL_STYLE)
+        self.indent_label = self._create_label("Spaces: 4", "Indentation")
         self.h_layout.addWidget(self.indent_label)
 
-        # Encoding label
-        self.encoding_label = QLabel("UTF-8")
-        self.encoding_label.setToolTip("Encoding")
-        self.encoding_label.setStyleSheet(LABEL_STYLE)
+        self.encoding_label = self._create_label("UTF-8", "Encoding")
         self.h_layout.addWidget(self.encoding_label)
 
-        # Cursor label
-        self.cursor_label = QLabel("Ln 1, Col 1")
-        self.cursor_label.setToolTip("Cursor Position")
-        self.cursor_label.setStyleSheet(LABEL_STYLE)
+        self.cursor_label = self._create_label("Ln 1, Col 1", "Cursor Position")
         self.h_layout.addWidget(self.cursor_label)
 
         self.h_layout.addSpacing(8)
 
         # Right panel buttons
-        self.right_panel_buttons = RightPanelButtons()
-        self.h_layout.addWidget(self.right_panel_buttons)
+        self.agent_btn = CustomButton("A")
+        self.agent_btn.setToolTip("AI Agent")
+        self.agent_btn.setStyleSheet(BUTTON_STYLE)
+        self.h_layout.addWidget(self.agent_btn)
+
+        self.terminal_btn = CustomButton("T")
+        self.terminal_btn.setToolTip("Terminal")
+        self.terminal_btn.setStyleSheet(BUTTON_STYLE)
+        self.h_layout.addWidget(self.terminal_btn)
 
         self.addWidget(self.container_widget, 1)
 
-    # Connects the explorer button to a function
+    @staticmethod
+    def _create_label(text: str, tooltip: str) -> QLabel:
+        label = QLabel(text)
+        label.setToolTip(tooltip)
+        label.setStyleSheet(LABEL_STYLE)
+        return label
+
     def setExplorerBtnConn(self, func):
-        self.left_panel_buttons.explorer_btn.clicked.connect(func)
-    
-    # Connects the git button to a function
+        self.explorer_btn.clicked.connect(func)
+
     def setGitBtnConn(self, func):
-        self.left_panel_buttons.git_btn.clicked.connect(func)
+        self.git_btn.clicked.connect(func)
 
-    # Connects the agent button to a function
     def setAgentBtnConn(self, func):
-        self.right_panel_buttons.agent_btn.clicked.connect(func)
+        self.agent_btn.clicked.connect(func)
 
-    # Connects the terminal button to a function
     def setTerminalBtnConn(self, func):
-        self.right_panel_buttons.terminal_btn.clicked.connect(func)
+        self.terminal_btn.clicked.connect(func)
 
     def set_status_message(self, message: str) -> None:
         self.status_message_label.setText(message)
@@ -116,41 +127,3 @@ class StatusBar(QStatusBar):
 
     def set_indentation(self, text: str) -> None:
         self.indent_label.setText(text)
-
-
-class LeftPanelButtons(QWidget):
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
-
-        self.h_layout = QHBoxLayout(self)
-        self.h_layout.setContentsMargins(0, 0, 0, 0)
-        self.h_layout.setSpacing(2)
-
-        self.explorer_btn = CustomButton("E")
-        self.explorer_btn.setToolTip("Explorer")
-        self.explorer_btn.setStyleSheet(BUTTON_STYLE)
-        self.h_layout.addWidget(self.explorer_btn)
-
-        self.git_btn = CustomButton("G")
-        self.git_btn.setToolTip("Source Control")
-        self.git_btn.setStyleSheet(BUTTON_STYLE)
-        self.h_layout.addWidget(self.git_btn)
-
-
-class RightPanelButtons(QWidget):
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
-
-        self.h_layout = QHBoxLayout(self)
-        self.h_layout.setContentsMargins(0, 0, 0, 0)
-        self.h_layout.setSpacing(2)
-
-        self.agent_btn = CustomButton("A")
-        self.agent_btn.setToolTip("AI Agent")
-        self.agent_btn.setStyleSheet(BUTTON_STYLE)
-        self.h_layout.addWidget(self.agent_btn)
-
-        self.terminal_btn = CustomButton("T")
-        self.terminal_btn.setToolTip("Terminal")
-        self.terminal_btn.setStyleSheet(BUTTON_STYLE)
-        self.h_layout.addWidget(self.terminal_btn)
