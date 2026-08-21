@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QFrame, QHBoxLayout, QLabel, QStatusBar, QWidget
-
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QStatusBar, QWidget
+from PyQt6.QtGui import QIcon
+from app.config import AI_AGENT_ICON, EXPLORER_ICON, GIT_ICON, LEFT_PANEL_ICON, RIGHT_PANEL_ICON, TERMINAL_ICON
 from ui.BaseWidgets.custom_button import CustomButton
 
 BUTTON_STYLE = """
@@ -44,21 +45,24 @@ class StatusBar(QStatusBar):
         self.container_widget = QWidget()
         self.h_layout = QHBoxLayout(self.container_widget)
         self.h_layout.setContentsMargins(4, 0, 4, 0)
-        self.h_layout.setSpacing(2)
+        self.h_layout.setSpacing(10)
 
         # Left panel buttons
-        self.left_panel_toggle_btn = CustomButton("[ ]")
+        self.left_panel_toggle_btn = CustomButton("")
+        self.left_panel_toggle_btn.setIcon(QIcon(LEFT_PANEL_ICON))
         self.left_panel_toggle_btn.setToolTip("Toggle Left Panel")
         self.left_panel_toggle_btn.setStyleSheet(BUTTON_STYLE)
         self.h_layout.addWidget(self.left_panel_toggle_btn)
         
-        self.explorer_btn = CustomButton("E")
+        self.explorer_btn = CustomButton("")
+        self.explorer_btn.setIcon(QIcon(EXPLORER_ICON))
         self.explorer_btn.setToolTip("Explorer")
         self.explorer_btn.setStyleSheet(BUTTON_STYLE)
         self.h_layout.addWidget(self.explorer_btn)
 
-        self.git_btn = CustomButton("G")
-        self.git_btn.setToolTip("Source Control")
+        self.git_btn = CustomButton("")
+        self.git_btn.setIcon(QIcon(GIT_ICON))
+        self.git_btn.setToolTip("Git Panel")
         self.git_btn.setStyleSheet(BUTTON_STYLE)
         self.h_layout.addWidget(self.git_btn)
 
@@ -87,15 +91,23 @@ class StatusBar(QStatusBar):
         self.h_layout.addSpacing(8)
 
         # Right panel buttons
-        self.agent_btn = CustomButton("A")
+        self.agent_btn = CustomButton("")
+        self.agent_btn.setIcon(QIcon(AI_AGENT_ICON))
         self.agent_btn.setToolTip("AI Agent")
         self.agent_btn.setStyleSheet(BUTTON_STYLE)
         self.h_layout.addWidget(self.agent_btn)
 
-        self.terminal_btn = CustomButton("T")
+        self.terminal_btn = CustomButton("")
+        self.terminal_btn.setIcon(QIcon(TERMINAL_ICON))
         self.terminal_btn.setToolTip("Terminal")
         self.terminal_btn.setStyleSheet(BUTTON_STYLE)
         self.h_layout.addWidget(self.terminal_btn)
+
+        self.right_panel_btn = CustomButton("")
+        self.right_panel_btn.setIcon(QIcon(RIGHT_PANEL_ICON))
+        self.right_panel_btn.setToolTip("Right Panel")
+        self.right_panel_btn.setStyleSheet(BUTTON_STYLE)
+        self.h_layout.addWidget(self.right_panel_btn)
 
         self.addWidget(self.container_widget, 1)
 
