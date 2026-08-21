@@ -6,7 +6,7 @@ class CustomButton(QPushButton):
         super().__init__(parent)
 
         self.setObjectName("custom_button")
-        self.setFixedSize(28, 28)
+        self.setFixedSize(24, 24)
         self.setText(text)
         self.setStyleSheet(self._get_style())
 
@@ -16,7 +16,7 @@ class CustomButton(QPushButton):
             background: #21262d;
             color: #c9d1d9;
             border: 1px solid #30363d;
-            border-radius: none;
+            border-radius: 1px;
             padding: 0px;
             font-size: 13px;
         }
