@@ -41,6 +41,7 @@ class StatusBar(QStatusBar):
 
         self.setFixedHeight(30)
         self.setSizeGripEnabled(False)
+        self.setObjectName("status_bar")
 
         self.container_widget = QWidget()
         self.h_layout = QHBoxLayout(self.container_widget)
