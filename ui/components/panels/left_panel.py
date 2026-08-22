@@ -8,8 +8,8 @@ class LeftPanel(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("leftPanel")
-        self.setMinimumWidth(220)
-        self.setMaximumWidth(400)
+        self.setMinimumWidth(0)
+        self.setMaximumWidth(600)
 
         self.stack = QStackedWidget()
         self.add(self.stack)

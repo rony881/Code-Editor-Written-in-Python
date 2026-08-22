@@ -10,8 +10,8 @@ class RightPanel(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("rightPanel")
-        self.setMinimumWidth(260)
-        self.setMaximumWidth(480)
+        self.setMinimumWidth(0)
+        self.setMaximumWidth(600)
 
         self.stack = QStackedWidget()
         self.add(self.stack)
