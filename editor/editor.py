@@ -14,8 +14,7 @@ class BaseEditor(QsciScintilla):
         self.setUtf8(True)
         self.setTabWidth(4)
         self.setMarginWidth(0, "00000000")
-        self.setMarginsFont(QFont("Consolas", 13))
-        self.setFont(QFont("Consolas", 13))
+        self.setFont(QFont("Jetbrains Mono", 15))
         self.setMarginType(0, QsciScintilla.MarginType.NumberMargin)
 
         # Auto-completion
