@@ -1,7 +1,7 @@
 from pathlib import Path
 from PyQt6.QtCore import pyqtSignal, QModelIndex
 from PyQt6.QtGui import QFileSystemModel
-from PyQt6.QtWidgets import QFileDialog, QPushButton, QTreeView
+from PyQt6.QtWidgets import QFileDialog, QTreeView
 
 from ui.BaseWidgets.widget_base import BaseWidget
 
@@ -37,8 +37,8 @@ class FileTreeView(QTreeView):
         # tree configuration
         self.setModel(self.file_model)
         self.hideColumn(1)
-        self.hideColumn(2)  # Size
-        self.hideColumn(3)  # Type
+        self.hideColumn(2)
+        self.hideColumn(3)
         self.setAnimated(True)
         self.setIndentation(10)
         self.setMinimumWidth(170)
