@@ -40,14 +40,14 @@ class MainWindow(QMainWindow):
         self.splitter_container = QSplitter(Qt.Orientation.Horizontal)
         self.central_widget.add(self.splitter_container)
 
-        self.left_panel = LeftPanel()
+        self.left_panel = LeftPanel(parent=self)
         self.splitter_container.addWidget(self.left_panel)
         self.left_panel.explorer_file_selected_conn(self.open_file_from_explorer)
         
-        self.central_panel = CentralPanel()
+        self.central_panel = CentralPanel(parent=self)
         self.splitter_container.addWidget(self.central_panel)
         
-        self.right_panel = RightPanel()
+        self.right_panel = RightPanel(parent=self)
         self.splitter_container.addWidget(self.right_panel)
 
         self.splitter_container.setSizes([260, 900, 220])
@@ -101,8 +101,7 @@ class MainWindow(QMainWindow):
         self.right_panel.showPanel("terminal")
 
     def read_style_sheet(self, styleSheetFile: str=STYLE_SHEET_FILE) -> str:
-        with open(styleSheetFile, "r", encoding="utf-8") as file:
-            style_sheet = file.read()
+        style_sheet, _ = read_file(styleSheetFile)
         return style_sheet
 
     # File / Edit / View / Settings / About / Help methods unchanged below...
