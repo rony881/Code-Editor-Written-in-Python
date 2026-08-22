@@ -1,5 +1,4 @@
 # Application Window Configuration
-from os import EX_OK
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
