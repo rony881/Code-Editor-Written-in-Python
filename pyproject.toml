@@ -1,0 +1,14 @@
+[project]
+name = "carbon-editor"
+version = "0.1.0"
+description = "Carbon Editor (PyCode) - a PyQt6 desktop code editor"
+requires-python = ">=3.11"
+dependencies = [
+    "PyQt6==6.11.0",
+    "PyQt6-Fluent-Widgets==1.11.2",
+    "PyQt6-QScintilla==2.14.1",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
