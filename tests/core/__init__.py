@@ -1,1 +1,0 @@
-DUMMY_FILE_MODEL = r"PS C:\Users\Lenovo\OneDrive\文件\Projects\Code Editor(TEST)"

@@ -1,7 +1,7 @@
 [project]
-name = "carbon-editor"
+name = "Light-Code"
 version = "0.1.0"
-description = "Carbon Editor (PyCode) - a PyQt6 desktop code editor"
+description = "Light Code Editor - a lightweight desktop code editor made with PyQt6"
 requires-python = ">=3.11"
 dependencies = [
     "PyQt6==6.11.0",
