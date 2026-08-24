@@ -25,12 +25,6 @@ class LeftPanel(BaseWidget):
             "git": 1,
         }
 
-    def browse_folder(self):
-        self.file_explorer.browse_folder()
-
-    def new_file(self, file_name: str = "untitled.py") -> bool:
-        return self.file_explorer.new_file(file_name)
-
     def explorer_file_selected_conn(self, conn):
         self.file_explorer.file_selected.connect(conn)
 
