@@ -1,5 +1,5 @@
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow, QSplitter
+from PyQt6.QtWidgets import QInputDialog, QMainWindow, QSplitter
 from PyQt6.QtCore import Qt
 
 from app.config import STYLE_SHEET_FILE, WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
@@ -112,7 +112,15 @@ class MainWindow(QMainWindow):
 
     def new_file(self):
         """Create a new file."""
-        pass
+        file_name, ok = QInputDialog.getText(
+                self,
+                "New File",
+                "File name:"
+        )
+        if not ok or not file_name:
+            return
+                
+        self.left_panel.new_file(file_name)
 
     def open_file(self):
         """Open a file."""

@@ -1,3 +1,4 @@
+# ui/components/widgets/file_explorer.py
 from pathlib import Path
 from PyQt6.QtCore import pyqtSignal, QModelIndex
 from PyQt6.QtGui import QFileSystemModel
@@ -20,6 +21,9 @@ class FileExplorer(BaseWidget):
 
     def browse_folder(self):
         self.file_tree_view.browse_folder()
+
+    def new_file(self, file_name: str = "untitled.py") -> bool:
+        return self.file_tree_view.new_file(file_name)
 
 
 class FileTreeView(QTreeView):
@@ -47,6 +51,24 @@ class FileTreeView(QTreeView):
         self.setHeaderHidden(True)
         self.setFolderPath(root_path or str(Path.home()))
 
+    def new_file(self, file_name: str = "untitled.py") -> bool:
+        index = self.currentIndex()
+
+        if not index.isValid():
+            folder_path = self.file_model.rootPath()
+        elif self.file_model.isDir(index):
+            folder_path = self.file_model.filePath(index)
+        else:
+            folder_path = self.file_model.filePath(index.parent())
+
+        file_path = Path(folder_path) / file_name
+
+        if file_path.exists():
+            return False
+
+        file_path.touch()
+        return True
+    
     def setFolderPath(self, file_path: str) -> None:
         """Point the explorer at a new root folder."""
         self.file_model.setRootPath(file_path)
