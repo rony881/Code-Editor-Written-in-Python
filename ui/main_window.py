@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
         if not ok or not file_name:
             return
                 
-        self.left_panel.new_file(file_name)
+        self.left_panel.file_explorer.new_file(file_name)
 
     def open_file(self):
         """Open a file."""
@@ -128,7 +128,7 @@ class MainWindow(QMainWindow):
 
     def browse_folder(self):
         """Open a folder."""
-        self.left_panel.browse_folder()
+        self.left_panel.file_explorer.browse_folder()
 
     def save_file(self):
         """Save the current file."""
