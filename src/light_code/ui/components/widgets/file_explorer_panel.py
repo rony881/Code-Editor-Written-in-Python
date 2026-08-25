@@ -8,27 +8,6 @@ from PyQt6.QtWidgets import QFileDialog, QHBoxLayout, QLabel, QPushButton, QTree
 from config import FILE_PLUS_ICON, FOLDER_PLUS_ICON
 from ui.base_widgets.base_widget import BaseWidget
 
-LABEL_STYLE = """
-color: #8b949e;
-font-size: 14px;
-padding: 2px 4px;
-"""
-BUTTON_STYLE = """
-QPushButton {
-    background: transparent;
-    border: none;
-    border-radius: 4px;
-    padding: 2px;
-}
-
-QPushButton:hover {
-    background: #30363d;
-}
-
-QPushButton:pressed {
-    background: #21262d;
-}
-"""
 
 class FileExplorer(BaseWidget):
     file_selected = pyqtSignal(str)
@@ -90,24 +69,24 @@ class FileExplorerHeader(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setFixedHeight(35)
+        self.setObjectName("file_explorer_header")
         self.h_layout = QHBoxLayout()
         self.add(self.h_layout)
         
-        self.folder_lbl = QLabel()
-        self.folder_lbl.setStyleSheet(LABEL_STYLE)
+        self.folder_lbl = QLabel(parent=self)
         self.h_layout.addWidget(self.folder_lbl)
         self.h_layout.addStretch()
 
-        self.new_file_btn = QPushButton()
+        self.new_file_btn = QPushButton(parent=self)
+        self.new_file_btn.setObjectName("new_file_btn")
         self.new_file_btn.setIcon(QIcon(FILE_PLUS_ICON))
-        self.new_file_btn.setStyleSheet(BUTTON_STYLE)
         self.new_file_btn.setIconSize(QSize(16, 16))
         self.new_file_btn.setFixedSize(24, 24)
         self.h_layout.addWidget(self.new_file_btn)
 
-        self.new_folder_btn = QPushButton()
+        self.new_folder_btn = QPushButton(parent=self)
+        self.new_folder_btn.setObjectName("new_folder_btn")
         self.new_folder_btn.setIcon(QIcon(FOLDER_PLUS_ICON))
-        self.new_folder_btn.setStyleSheet(BUTTON_STYLE)
         self.new_folder_btn.setIconSize(QSize(16, 16))
         self.new_folder_btn.setFixedSize(24, 24)
         self.h_layout.addWidget(self.new_folder_btn)
