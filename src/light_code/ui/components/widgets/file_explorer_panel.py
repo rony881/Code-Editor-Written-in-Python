@@ -17,6 +17,7 @@ class FileExplorer(BaseWidget):
         self.setObjectName("file_explorer")
         
         self.header = FileExplorerHeader(self)
+        self.header.new_file_btn.clicked.connect(lambda: self.new_file())
         self.add(self.header)
         
         self.file_tree_view = FileTreeView(self)
@@ -33,15 +34,20 @@ class FileExplorer(BaseWidget):
         if folder_path:
             self.setFolderPath(folder_path)
 
-    def new_file(self, file_name: str = "untitled.py") -> bool:
-        index = self.file_tree_view.currentIndex()
-
-        if not index.isValid():
-            folder_path = self.file_tree_view.file_model.rootPath()
-        elif self.file_tree_view.file_model.isDir(index):
-            folder_path = self.file_tree_view.file_model.filePath(index)
-        else:
-            folder_path = self.file_tree_view.file_model.filePath(index.parent())
+    def new_file(self, file_name: str = "untitled.py", folder_path: str|None = None) -> bool:
+        """Create a new file in the specified folder or the current selection."""
+        
+        # If no folder path is provided, 
+        # use the current selection or root.
+        if folder_path is None:
+            index = self.file_tree_view.currentIndex()
+    
+            if not index.isValid():
+                folder_path = self.file_tree_view.file_model.rootPath()
+            elif self.file_tree_view.file_model.isDir(index):
+                folder_path = self.file_tree_view.file_model.filePath(index)
+            else:
+                folder_path = self.file_tree_view.file_model.filePath(index.parent())
 
         file_path = Path(folder_path) / file_name
 
