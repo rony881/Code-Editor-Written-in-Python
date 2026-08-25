@@ -17,7 +17,8 @@ LEFT_PANEL_ICON = str(PROJECT_ROOT / "assets" / "icons" / "left-panel-logo.svg")
 AI_AGENT_ICON = str(PROJECT_ROOT / "assets" / "icons" / "ai-agent-logo.svg")
 RIGHT_PANEL_ICON = str(PROJECT_ROOT / "assets" / "icons" / "right-panel-logo.svg")
 TERMINAL_ICON = str(PROJECT_ROOT / "assets" / "icons" / "terminal-logo.svg")
-
+FILE_PLUS_ICON = str(PROJECT_ROOT / "assets" / "icons" / "file-plus-logo.svg")
+FOLDER_PLUS_ICON = str(PROJECT_ROOT / "assets" / "icons" / "folder-plus-logo.svg")
 
 # Style Sheet Dir
 STYLE_SHEET_FILE = str(PROJECT_ROOT / "ui" / "themes" / "style.qss")
