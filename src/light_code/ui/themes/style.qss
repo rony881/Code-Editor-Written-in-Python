@@ -66,6 +66,22 @@ QTabBar::tab:hover:!selected {
     background: #1c2128;
 }
 
+/*===================================================*/
+/*                 QLabel Styles                     */
+/*===================================================*/
+
+/* QLabel Style for File Explorer Header */
+QLabel#file_explorer_header {
+    color: #8b949e;
+    font-size: 14px;
+    padding: 2px 4px;
+}
+
+/*===================================================*/
+/*              QStatusBar Styles                   */
+/*===================================================*/
+
+/* QStatusBar Style for Status Bar */
 QStatusBar#status_bar {
     background: #161b22;
     color: #8b949e;
@@ -126,6 +142,38 @@ QLineEdit {
 QLineEdit:focus {
     border-color: #1f6feb;
 }
+
+/*===================================================*/
+/*              QPushButton Styles                   */
+/*===================================================*/
+
+/* QPushButton Styles for the file explorer header */
+QPushButton#new_file_btn {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    padding: 2px;
+}
+QPushButton#new_folder_btn {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    padding: 2px;
+}
+QPushButton#new_file_btn:hover {
+    background: #30363d;
+}
+QPushButton#new_folder_btn:hover {
+    background: #30363d;
+}
+QPushButton#new_file_btn:pressed {
+    background: #21262d;
+}
+QPushButton#new_folder_btn:pressed {
+    background: #21262d;
+}
+
+/* QPushButton Default Styles */
 QPushButton {
     background: #21262d;
     color: #c9d1d9;
