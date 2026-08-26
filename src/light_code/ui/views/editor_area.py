@@ -25,7 +25,7 @@ class EditorArea(TabBase):
             return
 
         # create a new tab
-        tab = BaseEditor(file_path=file_path)
+        tab = BaseEditor(file_path = file_path)
         tab.setText(content)
         self.addTab(tab, tab_name)
 
@@ -37,3 +37,23 @@ class EditorArea(TabBase):
         self.setCurrentIndex(tab_index)
 
         return tab_index
+
+    def current_file_path(self) -> str:
+        """Returns file path of current selected tab"""
+        widget = self.currentWidget()
+        file_path = widget.file_path
+
+        if not widget:
+            return None
+
+        return file_path
+
+    def current_content(self) -> str:
+        """Returns content of current selected tab"""
+        widget = self.currentWidget()
+        content = widget.text()
+
+        if not widget:
+            return ""
+
+        return content
