@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import QFileDialog, QHBoxLayout, QLabel, QPushButton, QTree
 
 from config import FILE_PLUS_ICON, FOLDER_PLUS_ICON
 from ui.base_widgets.base_widget import BaseWidget
+from utils.logger import logger
 
 
 class FileExplorer(BaseWidget):
@@ -15,6 +16,7 @@ class FileExplorer(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("file_explorer")
+        logger.info("Initializing FileExplorer")
         
         self.header = FileExplorerHeader(self)
         self.header.new_file_btn.clicked.connect(lambda: self.new_file())
@@ -29,14 +31,20 @@ class FileExplorer(BaseWidget):
 
     def browse_folder(self) -> None:
         """Open a native dialog and switch root folder if the user picks one."""
+
+        logger.info("Opening folder dialog")
         current = self.file_tree_view.file_model.rootPath()
+        
         folder_path = QFileDialog.getExistingDirectory(self, "Select Folder", current)
         if folder_path:
             self.setFolderPath(folder_path)
+            logger.info(f"Folder selected: {folder_path}")
+        else:
+            logger.warning("Folder selection cancelled")
 
     def new_file(self, file_name: str = "untitled.py", folder_path: str|None = None) -> bool:
         """Create a new file in the specified folder or the current selection."""
-        
+        logger.info(f"Creating new file: {file_name}")
         # If no folder path is provided, 
         # use the current selection or root.
         if folder_path is None:
@@ -52,9 +60,11 @@ class FileExplorer(BaseWidget):
         file_path = Path(folder_path) / file_name
 
         if file_path.exists():
+            logger.warning(f"File already exists: {file_path}")
             return False
 
         file_path.touch()
+        logger.info(f"File created: {file_path}")
         return True
 
     def set_folder_lbl_text(self, text: str) -> None:
@@ -62,6 +72,8 @@ class FileExplorer(BaseWidget):
 
     def setFolderPath(self, folder_path: str) -> None:
         """Point the explorer at a new root folder."""
+
+        logger.info(f"Setting folder path: {folder_path}")
         self.file_tree_view.file_model.setRootPath(folder_path)
         self.file_tree_view.setRootIndex(self.file_tree_view.file_model.index(folder_path))
         self.file_tree_view.folder_changed.emit(folder_path)
@@ -74,6 +86,8 @@ class FileExplorer(BaseWidget):
 class FileExplorerHeader(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
+
+        logger.info("Initializing FileExplorerHeader")
         self.setFixedHeight(35)
         self.setObjectName("file_explorer_header")
         self.h_layout = QHBoxLayout()
@@ -104,6 +118,8 @@ class FileTreeView(QTreeView):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
+
+        logger.info("Initializing FileTreeView")
         self.setObjectName("file_tree_view")
         self.file_model = QFileSystemModel()
         self.clicked.connect(self.on_file_click)

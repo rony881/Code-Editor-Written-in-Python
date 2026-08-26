@@ -2,10 +2,13 @@
 
 from PyQt6.QtWidgets import QLabel
 from ui.base_widgets.base_widget import BaseWidget
+from utils.logger import logger
 
 
 class TerminalPanel(BaseWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
+
+        logger.info("Initializing TerminalPanel")
         self.setObjectName("terminal_panel")
         self.add(QLabel("TERMINAL PANEL — COMING SOON"))

@@ -1,10 +1,13 @@
-# src/light_code/services/run_code_service.py
+# services/run_code_service.py
 
 import sys
 from PyQt6.QtCore import QProcess
 
+from utils.logger import logger
+
 
 def run_python_file(file_path: str) -> QProcess:
+    logger.info(f"Running Python file: {file_path}")
     process = QProcess()
 
     process.readyReadStandardOutput.connect(

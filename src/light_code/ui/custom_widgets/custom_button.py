@@ -1,10 +1,12 @@
 from PyQt6.QtWidgets import QPushButton
 
+from utils.logger import logger
+
 
 class CustomButton(QPushButton):
     def __init__(self, text: str, parent=None):
         super().__init__(parent)
-
+        logger.info(f"Initializing CustomButton with text: {text}")
         self.setObjectName("custom_button")
         self.setFixedSize(24, 24)
         self.setText(text)

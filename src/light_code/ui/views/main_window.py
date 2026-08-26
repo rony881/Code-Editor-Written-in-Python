@@ -12,6 +12,7 @@ from ui.views.left_dock import LeftDock
 from ui.views.right_dock import RightDock
 from ui.custom_widgets.custom_statusbar import CustomStatusBar
 from ui.custom_widgets.custom_menubar import CustomMenuBar
+from utils.logger import logger
 
 
 class MainWindow(QMainWindow):
@@ -23,6 +24,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
 
+        logger.info("Initializing MainWindow")
         self.setWindowTitle("Light Code")
         self.setWindowIcon(QIcon(WINDOW_LOGO))
         self.resize(WINDOW_WIDTH, WINDOW_HEIGHT)

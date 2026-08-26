@@ -1,4 +1,5 @@
 from ui.base_widgets.menu_base import MenuBaseWidget, MenuItem, MenuStructure
+from utils.logger import logger
 
 
 class CustomMenuBar(MenuBaseWidget):
@@ -7,6 +8,7 @@ class CustomMenuBar(MenuBaseWidget):
     """
     def __init__(self, parent):
         super().__init__(parent)
+        logger.info("Initializing CustomMenuBar")
         self.main_window = parent
         self.build(self._structure())
 

@@ -2,6 +2,7 @@
 
 from editor.editor import BaseEditor
 from ui.base_widgets.tab_base import TabBase
+from utils.logger import logger
 
 
 class EditorArea(TabBase):
@@ -10,6 +11,8 @@ class EditorArea(TabBase):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("editor_panel")
+        logger.info("Initializing EditorArea")
+        
 
     def add_tab(self, tab_name: str, file_path: str, content: str) -> int | None:
         """ this method used for open a tab """

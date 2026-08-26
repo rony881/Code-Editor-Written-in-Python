@@ -2,13 +2,14 @@ from PyQt6.QtWidgets import QStackedWidget
 from ui.base_widgets.base_widget import BaseWidget
 from ui.components.widgets.agent_panel import AgentPanel
 from ui.components.widgets.terminal_panel import TerminalPanel
-
+from utils.logger import logger
 
 class RightDock(BaseWidget):
     """Right-hand agent/assistant panel."""
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
+        logger.info("Initializing RightDock")
         self.setObjectName("rightPanel")
         self.setMinimumWidth(0)
         self.setMaximumWidth(600)

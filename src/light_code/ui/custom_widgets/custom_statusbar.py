@@ -1,5 +1,7 @@
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QStatusBar, QWidget
 from PyQt6.QtGui import QIcon
+
+from utils.logger import logger
 from config import AI_AGENT_ICON, EXPLORER_ICON, GIT_ICON, LEFT_PANEL_ICON, RIGHT_PANEL_ICON, TERMINAL_ICON
 from ui.custom_widgets.custom_button import CustomButton
 
@@ -39,6 +41,7 @@ class CustomStatusBar(QStatusBar):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
+        logger.info("Initializing CustomStatusBar")
         self.setFixedHeight(30)
         self.setSizeGripEnabled(False)
         self.setObjectName("status_bar")

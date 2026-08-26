@@ -2,11 +2,13 @@ from PyQt6.QtWidgets import QStackedWidget
 from ui.base_widgets.base_widget import BaseWidget
 from ui.components.widgets.file_explorer_panel import FileExplorer
 from ui.components.widgets.git_panel import GitPanel
+from utils.logger import logger
 
 class LeftDock(BaseWidget):
     """Sidebar file explorer panel."""
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
+        logger.info("Initializing LeftDock")
         self.setObjectName("leftPanel")
         self.setMinimumWidth(0)
         self.setMaximumWidth(600)
