@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import QInputDialog, QMainWindow, QSplitter
 from PyQt6.QtCore import Qt
 
 from config import STYLE_SHEET_FILE, WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
-from services.file_service import read_file
+from services.file_service import read_file, write_file
 from ui.base_widgets.base_widget import BaseWidget
 from ui.views.editor_area import EditorArea
 from ui.views.left_dock import LeftDock
@@ -108,6 +108,9 @@ class MainWindow(QMainWindow):
         style_sheet, _ = read_file(styleSheetFile)
         return style_sheet
 
+    def current_file_path(self) -> str:
+        return self.central_panel.current_file_path()
+
     # File / Edit / View / Settings / About / Help methods unchanged below...
 
     # ─────────────────────────────────────────────
@@ -136,7 +139,10 @@ class MainWindow(QMainWindow):
 
     def save_file(self):
         """Save the current file."""
-        pass
+        file_path = self.current_file_path()
+        content = self.central_panel.current_content()
+
+        write_file(file_path, content)
 
     def save_file_as(self):
         """Save the current file with a new name."""
