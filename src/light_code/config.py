@@ -3,43 +3,69 @@
 from pathlib import Path
 
 
-# Project Root Folder Path
-PROJECT_ROOT = Path(__file__).resolve().parent.parent / "light_code"
+# ============================================================
+# Project Paths
+# ============================================================
+
+# Project root:
+# LiteCode/
+# ├── src/
+# │   └── light_code/
+# │       └── config.py
+# └── ...
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+# Python package root:
+PACKAGE_ROOT = Path(__file__).resolve().parent
+
+# Application resources
+ASSETS_PATH = PACKAGE_ROOT / "assets"
+ICONS_PATH = ASSETS_PATH / "icons"
 
 
+# ============================================================
 # Application Window Configuration
-# Window Width and Height
+# ============================================================
+
 WINDOW_WIDTH = 1080
 WINDOW_HEIGHT = 720
-# Application Logo
-WINDOW_LOGO = str(PROJECT_ROOT / "assets" / "icons" / "app-logo.png")
+
+WINDOW_LOGO = str(ICONS_PATH / "app-logo.png")
 
 
-# ============= Application Icons ========================================
-# Used for File Explorer Button in Status Bar
-EXPLORER_ICON = str(PROJECT_ROOT / "assets" / "icons" / "file-explorer-logo.svg")
+# ============================================================
+# Application Icons
+# ============================================================
 
-# Used for Git Button in Status Bar
-GIT_ICON = str(PROJECT_ROOT / "assets" / "icons" / "git-logo.svg")
+# File Explorer Button
+EXPLORER_ICON = str(ICONS_PATH / "file-explorer-logo.svg")
 
-# Used for Left Panel Button in Status Bar
-LEFT_PANEL_ICON = str(PROJECT_ROOT / "assets" / "icons" / "left-panel-logo.svg")
+# Git Button
+GIT_ICON = str(ICONS_PATH / "git-logo.svg")
 
-# Used for AI Agent Button in Status Bar
-AI_AGENT_ICON = str(PROJECT_ROOT / "assets" / "icons" / "ai-agent-logo.svg")
+# Left Panel Button
+LEFT_PANEL_ICON = str(ICONS_PATH / "left-panel-logo.svg")
 
-# Used for Right Panel Button in Status Bar
-RIGHT_PANEL_ICON = str(PROJECT_ROOT / "assets" / "icons" / "right-panel-logo.svg")
+# AI Agent Button
+AI_AGENT_ICON = str(ICONS_PATH / "ai-agent-logo.svg")
 
-# Used for Terminal Button in Status Bar
-TERMINAL_ICON = str(PROJECT_ROOT / "assets" / "icons" / "terminal-logo.svg")
+# Right Panel Button
+RIGHT_PANEL_ICON = str(ICONS_PATH / "right-panel-logo.svg")
 
-# Used for File Plus Button in File Explorer Header
-FILE_PLUS_ICON = str(PROJECT_ROOT / "assets" / "icons" / "file-plus-logo.svg")
+# Terminal Button
+TERMINAL_ICON = str(ICONS_PATH / "terminal-logo.svg")
 
-# Used for Folder Plus Button in File Explorer Header
-FOLDER_PLUS_ICON = str(PROJECT_ROOT / "assets" / "icons" / "folder-plus-logo.svg")
+# File Plus Button
+FILE_PLUS_ICON = str(ICONS_PATH / "file-plus-logo.svg")
+
+# Folder Plus Button
+FOLDER_PLUS_ICON = str(ICONS_PATH / "folder-plus-logo.svg")
 
 
-# Application Default Style Sheet Dir
-STYLE_SHEET_FILE = str(PROJECT_ROOT / "ui" / "themes" / "style.qss")
+# ============================================================
+# Application Styles
+# ============================================================
+
+STYLE_SHEET_FILE = str(
+    PACKAGE_ROOT / "ui" / "themes" / "style.qss"
+)
