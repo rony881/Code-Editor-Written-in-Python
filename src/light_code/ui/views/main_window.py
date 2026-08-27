@@ -30,33 +30,34 @@ class MainWindow(QMainWindow):
         self.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
         self.setStyleSheet(self.read_style_sheet())
 
-        #============= Menu Bar ===============
+        # ============= Menu Bar ===============
         self.menu_bar = CustomMenuBar(parent=self)
         self.setMenuBar(self.menu_bar)
 
-        #============= Central Widget ============
+        # ============= Central Widget ============
         self.central_widget = BaseWidget()
         self.setCentralWidget(self.central_widget)
 
-        #============== Main Window Splitter ===========================
+        # ============== Main Window Splitter ===========================
         # This splitter container widget would contain 3 panels-
-        # left,right and the contral panel. 
+        # left,right and the contral panel.
         self.splitter_container = QSplitter(Qt.Orientation.Horizontal)
         self.central_widget.add(self.splitter_container)
 
         self.left_panel = LeftDock(parent=self)
         self.splitter_container.addWidget(self.left_panel)
-        self.left_panel.explorer_file_selected_conn(self.open_file_from_explorer)
-        
+        self.left_panel.explorer_file_selected_conn(
+            self.open_file_from_explorer)
+
         self.central_panel = EditorArea(parent=self)
         self.splitter_container.addWidget(self.central_panel)
-        
+
         self.right_panel = RightDock(parent=self)
         self.splitter_container.addWidget(self.right_panel)
 
         self.splitter_container.setSizes([260, 900, 220])
-            
-        #============= Status Bar ============
+
+        # ============= Status Bar ============
         self.status_bar = CustomStatusBar(self)
         self.setStatusBar(self.status_bar)
 
@@ -81,7 +82,7 @@ class MainWindow(QMainWindow):
 
     def set_left_panel_visible(self, visible: bool):
         sizes = self.splitter_container.sizes()
-    
+
         if visible:
             sizes[0] = 260
         else:
@@ -104,7 +105,7 @@ class MainWindow(QMainWindow):
     def open_terminal_panel(self):
         self.right_panel.showPanel("terminal")
 
-    def read_style_sheet(self, styleSheetFile: str=STYLE_SHEET_FILE) -> str:
+    def read_style_sheet(self, styleSheetFile: str = STYLE_SHEET_FILE) -> str:
         style_sheet, _ = read_file(styleSheetFile)
         return style_sheet
 
@@ -120,13 +121,13 @@ class MainWindow(QMainWindow):
     def new_file(self):
         """Create a new file."""
         file_name, ok = QInputDialog.getText(
-                self,
-                "New File",
-                "File name:"
+            self,
+            "New File",
+            "File name:"
         )
         if not ok or not file_name:
             return
-                
+
         self.left_panel.file_explorer.new_file(file_name)
 
     def open_file(self):
