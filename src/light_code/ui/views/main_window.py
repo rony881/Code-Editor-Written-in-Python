@@ -6,6 +6,7 @@ from PyQt6.QtCore import Qt
 
 from config import STYLE_SHEET_FILE, WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
 from services.file_service import read_file, write_file
+from services.run_code_service import run_python_file
 from ui.base_widgets.base_widget import BaseWidget
 from ui.views.editor_area import EditorArea
 from ui.views.left_dock import LeftDock
@@ -216,6 +217,15 @@ class MainWindow(QMainWindow):
     def reset_zoom(self):
         """Reset editor zoom to the default level."""
         pass
+
+    #
+    # Build
+    #
+
+    def run_file(self):
+        """Run interpreted  language scripts"""
+        file_path = self.current_file_path()
+        run_python_file(file_path)
 
     # ─────────────────────────────────────────────
     # Settings
