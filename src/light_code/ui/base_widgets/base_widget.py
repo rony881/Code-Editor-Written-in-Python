@@ -4,7 +4,7 @@ from PyQt6.QtCore import Qt
 class BaseWidget(QWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        self.setObjectName("panel")
+        self.setObjectName("base_widget")
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
