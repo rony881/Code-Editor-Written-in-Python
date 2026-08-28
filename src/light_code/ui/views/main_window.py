@@ -69,10 +69,14 @@ class MainWindow(QMainWindow):
         self.status_bar.setTerminalBtnConn(self.open_terminal_panel)
 
     def open_file_from_explorer(self, file_path: str):
+        logger.info(f"Opening file from explorer: {file_path}")
+        
         content, name = read_file(file_path)
         self.central_panel.add_tab(name, file_path, content)
 
     def toggle_left_panel(self):
+        logger.info("Toggling left panel")
+        
         if self._left_panel_width() < 5:
             self.set_left_panel_visible(True)
         else:
@@ -91,19 +95,23 @@ class MainWindow(QMainWindow):
         self.splitter_container.setSizes(sizes)
 
     def open_git_panel(self):
+        logger.info("Opening git panel")
         self.left_panel.showPanel("git")
         if self._left_panel_width() < 5:
             self.set_left_panel_visible(True)
 
     def open_explorer_panel(self):
+        logger.info("Opening explorer panel")
         self.left_panel.showPanel("explorer")
         if self._left_panel_width() < 5:
             self.set_left_panel_visible(True)
 
     def open_agent_panel(self):
+        logger.info("Opening agent panel")
         self.right_panel.showPanel("agent")
 
     def open_terminal_panel(self):
+        logger.info("Opening terminal panel")
         self.right_panel.showPanel("terminal")
 
     def read_style_sheet(self, styleSheetFile: str = STYLE_SHEET_FILE) -> str:
@@ -121,6 +129,8 @@ class MainWindow(QMainWindow):
 
     def new_file(self):
         """Create a new file."""
+        logger.info("Creating new file")
+        
         file_name, ok = QInputDialog.getText(
             self,
             "New File",
@@ -218,9 +228,9 @@ class MainWindow(QMainWindow):
         """Reset editor zoom to the default level."""
         pass
 
-    #
+    # ─────────────────────────────────────────────
     # Build
-    #
+    # ─────────────────────────────────────────────
 
     def run_file(self):
         """Run interpreted  language scripts"""
