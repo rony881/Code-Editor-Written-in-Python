@@ -11,4 +11,6 @@ class TerminalPanel(BaseWidget):
 
         logger.info("Initializing TerminalPanel")
         self.setObjectName("terminal_panel")
-        self.add(QLabel("TERMINAL PANEL — COMING SOON"))
+        label = QLabel("TERMINAL PANEL — COMING SOON")
+        label.setObjectName("terminal_panel_label")
+        self.add(label)

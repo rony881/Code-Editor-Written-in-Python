@@ -15,7 +15,7 @@ class FileExplorer(BaseWidget):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        self.setObjectName("file_explorer")
+        self.setObjectName("file_explorer_panel")
         logger.info("Initializing FileExplorer")
         
         self.header = FileExplorerHeader(self)

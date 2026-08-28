@@ -11,4 +11,6 @@ class GitPanel(BaseWidget):
 
         logger.info("Initializing GitPanel")
         self.setObjectName("git_panel")
-        self.add(QLabel("GIT PANEL — COMING SOON"))
+        label = QLabel("GIT PANEL — COMING SOON")
+        label.setObjectName("git_panel_label")
+        self.add(label)
