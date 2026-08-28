@@ -10,4 +10,6 @@ class AgentPanel(BaseWidget):
         super().__init__(parent)
         logger.info("Initializing AgentPanel")        
         self.setObjectName("agent_panel")
-        self.add(QLabel("AGENT PANEL — COMING SOON"))
+        label = QLabel("AGENT PANEL — COMING SOON")
+        label.setObjectName("agent_panel_label")
+        self.add(label)
