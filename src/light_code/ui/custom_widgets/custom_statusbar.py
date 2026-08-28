@@ -125,6 +125,9 @@ class CustomStatusBar(QStatusBar):
     def setLeftPanelToggleBtnConn(self, func):
         self.left_panel_toggle_btn.clicked.connect(func)
 
+    def setRightPanelToggleBtnConn(self, func):
+        self.right_panel_btn.clicked.connect(func)
+
     def setExplorerBtnConn(self, func):
         self.explorer_btn.clicked.connect(func)
 
