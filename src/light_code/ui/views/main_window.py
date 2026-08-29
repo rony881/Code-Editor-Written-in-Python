@@ -102,31 +102,29 @@ class MainWindow(QMainWindow):
             sizes[self.RIGHT_PANEL_INDEX] = 0
         self.splitter_container.setSizes(sizes)
 
-    def open_git_panel(self):
-        logger.info("Opening git panel")
-        self.left_panel.showPanel("git")
+    def _show_left_panel(self, name: str):
+        logger.info(f"Opening {name} panel")
+        self.left_panel.showPanel(name)
         if self._left_panel_width() < 5:
             self.set_left_panel_visible(True)
+    
+    def _show_right_panel(self, name: str):
+        logger.info(f"Opening {name} panel")
+        self.right_panel.showPanel(name)
+        if self._right_panel_width() < 5:
+            self.set_right_panel_visible(True)
+    
+    def open_git_panel(self):
+        self._show_left_panel("git")
 
     def open_explorer_panel(self):
-        logger.info("Opening explorer panel")
-        self.left_panel.showPanel("explorer")
-        if self._left_panel_width() < 5:
-            self.set_left_panel_visible(True)
+        self._show_left_panel("explorer")
 
     def open_agent_panel(self):
-        logger.info("Opening agent panel")
-        self.right_panel.showPanel("agent")
-
-        if self._right_panel_width() < 5:
-            self.set_right_panel_visible(True)
+        self._show_right_panel("agent")
 
     def open_terminal_panel(self):
-        logger.info("Opening terminal panel")
-        self.right_panel.showPanel("terminal")
-
-        if self._right_panel_width() < 5:
-            self.set_right_panel_visible(True)
+        self._show_right_panel("terminal")
 
     def read_style_sheet(self, styleSheetFile: str = STYLE_SHEET_FILE) -> str:
         style_sheet, _ = read_file(styleSheetFile)
