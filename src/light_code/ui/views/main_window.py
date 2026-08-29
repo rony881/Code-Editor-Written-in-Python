@@ -58,6 +58,9 @@ class MainWindow(QMainWindow):
 
         self.splitter_container.setSizes([260, 900, 220])
 
+        self.LEFT_PANEL_INDEX = 0
+        self.RIGHT_PANEL_INDEX = -1
+
         # ============= Status Bar ============
         self.status_bar = CustomStatusBar(self)
         self.setStatusBar(self.status_bar)
@@ -90,9 +93,9 @@ class MainWindow(QMainWindow):
         sizes = self.splitter_container.sizes()
 
         if visible:
-            sizes[0] = 260
+            sizes[self.LEFT_PANEL_INDEX] = 260
         else:
-            sizes[0] = 0
+            sizes[self.LEFT_PANEL_INDEX] = 0
         self.splitter_container.setSizes(sizes)
 
     def toggle_right_panel(self):
@@ -104,15 +107,15 @@ class MainWindow(QMainWindow):
             self.set_right_panel_visible(False)
 
     def _right_panel_width(self):
-        return self.splitter_container.sizes()[-1]
+        return self.splitter_container.sizes()[self.RIGHT_PANEL_INDEX]
 
     def set_right_panel_visible(self, visible: bool):
         sizes = self.splitter_container.sizes()
 
         if visible:
-            sizes[-1] = 260
+            sizes[self.RIGHT_PANEL_INDEX] = 260
         else:
-            sizes[-1] = 0
+            sizes[self.RIGHT_PANEL_INDEX] = 0
         self.splitter_container.setSizes(sizes)
 
     def open_git_panel(self):
