@@ -63,6 +63,7 @@ class MainWindow(QMainWindow):
         self.setStatusBar(self.status_bar)
 
         self.status_bar.setLeftPanelToggleBtnConn(self.toggle_left_panel)
+        self.status_bar.setRightPanelToggleBtnConn(self.toggle_right_panel)
         self.status_bar.setGitBtnConn(self.open_git_panel)
         self.status_bar.setExplorerBtnConn(self.open_explorer_panel)
         self.status_bar.setAgentBtnConn(self.open_agent_panel)
@@ -70,13 +71,13 @@ class MainWindow(QMainWindow):
 
     def open_file_from_explorer(self, file_path: str):
         logger.info(f"Opening file from explorer: {file_path}")
-        
+
         content, name = read_file(file_path)
         self.central_panel.add_tab(name, file_path, content)
 
     def toggle_left_panel(self):
         logger.info("Toggling left panel")
-        
+
         if self._left_panel_width() < 5:
             self.set_left_panel_visible(True)
         else:
@@ -92,6 +93,26 @@ class MainWindow(QMainWindow):
             sizes[0] = 260
         else:
             sizes[0] = 0
+        self.splitter_container.setSizes(sizes)
+
+    def toggle_right_panel(self):
+        logger.info("Toggling right panel")
+
+        if self._right_panel_width() < 5:
+            self.set_right_panel_visible(True)
+        else:
+            self.set_right_panel_visible(False)
+
+    def _right_panel_width(self):
+        return self.splitter_container.sizes()[-1]
+
+    def set_right_panel_visible(self, visible: bool):
+        sizes = self.splitter_container.sizes()
+
+        if visible:
+            sizes[-1] = 260
+        else:
+            sizes[-1] = 0
         self.splitter_container.setSizes(sizes)
 
     def open_git_panel(self):
@@ -110,9 +131,15 @@ class MainWindow(QMainWindow):
         logger.info("Opening agent panel")
         self.right_panel.showPanel("agent")
 
+        if self._right_panel_width() < 5:
+            self.set_right_panel_visible(True)
+
     def open_terminal_panel(self):
         logger.info("Opening terminal panel")
         self.right_panel.showPanel("terminal")
+
+        if self._right_panel_width() < 5:
+            self.set_right_panel_visible(True)
 
     def read_style_sheet(self, styleSheetFile: str = STYLE_SHEET_FILE) -> str:
         style_sheet, _ = read_file(styleSheetFile)
@@ -130,7 +157,7 @@ class MainWindow(QMainWindow):
     def new_file(self):
         """Create a new file."""
         logger.info("Creating new file")
-        
+
         file_name, ok = QInputDialog.getText(
             self,
             "New File",
