@@ -78,14 +78,6 @@ class MainWindow(QMainWindow):
         content, name = read_file(file_path)
         self.central_panel.add_tab(name, file_path, content)
 
-    def toggle_left_panel(self):
-        logger.info("Toggling left panel")
-
-        if self._left_panel_width() < 5:
-            self.set_left_panel_visible(True)
-        else:
-            self.set_left_panel_visible(False)
-
     def _left_panel_width(self) -> int:
         return self.splitter_container.sizes()[0]
 
@@ -97,14 +89,6 @@ class MainWindow(QMainWindow):
         else:
             sizes[self.LEFT_PANEL_INDEX] = 0
         self.splitter_container.setSizes(sizes)
-
-    def toggle_right_panel(self):
-        logger.info("Toggling right panel")
-
-        if self._right_panel_width() < 5:
-            self.set_right_panel_visible(True)
-        else:
-            self.set_right_panel_visible(False)
 
     def _right_panel_width(self):
         return self.splitter_container.sizes()[self.RIGHT_PANEL_INDEX]
@@ -234,9 +218,21 @@ class MainWindow(QMainWindow):
     # View
     # ─────────────────────────────────────────────
 
-    def toggle_sidebar(self):
-        """Show or hide the sidebar."""
-        pass
+    def toggle_left_panel(self):
+        logger.info("Toggling left panel")
+
+        if self._left_panel_width() < 5:
+            self.set_left_panel_visible(True)
+        else:
+            self.set_left_panel_visible(False)
+
+    def toggle_right_panel(self):
+        logger.info("Toggling right panel")
+
+        if self._right_panel_width() < 5:
+            self.set_right_panel_visible(True)
+        else:
+            self.set_right_panel_visible(False)
 
     def toggle_terminal(self):
         """Show or hide the terminal."""
