@@ -2,6 +2,8 @@
 
 from editor.editor import BaseEditor
 from ui.base_widgets.tab_base import TabBase
+from PyQt6.QtWidgets import QMessageBox
+from services.file_service import write_file
 from utils.logger import logger
 
 
@@ -40,7 +42,7 @@ class EditorArea(TabBase):
     def current_file_path(self) -> str:
         """Returns file path of current selected tab"""
         widget = self.currentWidget()
-        file_path = widget.file_path
+        file_path = getattr(widget, "file_path", None)
 
         if not widget:
             return None
@@ -58,15 +60,32 @@ class EditorArea(TabBase):
         return content
 
     def on_close_tab(self, index: int) -> None:
-        """Close the tab at the given index and clean up tracking state."""
+        """Close the tab at the given index, ask to save changes first."""
         widget = self.widget(index)
-
+        file_path = getattr(widget, "file_path", None)
+        content = widget.text()
+    
+        if widget is not None and widget.isModified():
+            choice = QMessageBox.question(
+                self,
+                "Unsaved Changes",
+                f'Save changes to "{self.tabText(index)}" before closing?',
+                QMessageBox.StandardButton.Save
+                | QMessageBox.StandardButton.Discard
+                | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Save,
+            )
+    
+            if choice == QMessageBox.StandardButton.Cancel:
+                return
+            if choice == QMessageBox.StandardButton.Save:
+                write_file(file_path, content)
+    
         if widget is not None:
-            file_path = getattr(widget, "file_path", None)
             if file_path in self.OPEN_TABS:
                 del self.OPEN_TABS[file_path]
-
+    
         self.removeTab(index)
-
+    
         if widget is not None:
             widget.deleteLater()
