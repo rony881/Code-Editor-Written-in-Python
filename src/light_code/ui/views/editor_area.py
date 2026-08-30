@@ -56,3 +56,17 @@ class EditorArea(TabBase):
         content = widget.text()
 
         return content
+
+    def on_close_tab(self, index: int) -> None:
+        """Close the tab at the given index and clean up tracking state."""
+        widget = self.widget(index)
+
+        if widget is not None:
+            file_path = getattr(widget, "file_path", None)
+            if file_path in self.OPEN_TABS:
+                del self.OPEN_TABS[file_path]
+
+        self.removeTab(index)
+
+        if widget is not None:
+            widget.deleteLater()
