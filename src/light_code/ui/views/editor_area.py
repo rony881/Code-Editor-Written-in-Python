@@ -27,7 +27,6 @@ class EditorArea(TabBase):
         # create a new tab
         tab = BaseEditor(file_path = file_path)
         tab.setText(content)
-        self.addTab(tab, tab_name)
 
         # Creat New Tab and return Tab Index
         tab_index = self.addTab(tab, tab_name)
@@ -51,9 +50,9 @@ class EditorArea(TabBase):
     def current_content(self) -> str:
         """Returns content of current selected tab"""
         widget = self.currentWidget()
-        content = widget.text()
 
         if not widget:
-            return ""
+            return ""   
+        content = widget.text()
 
         return content
