@@ -39,29 +39,32 @@ class MainWindow(QMainWindow):
         self.central_widget = BaseWidget()
         self.setCentralWidget(self.central_widget)
 
-        # ============== Main Window Splitter ===========================
+        # ==================== Splitter =======================
         # This splitter container widget would contain 3 panels-
         # left,right and the contral panel.
         self.splitter_container = QSplitter(Qt.Orientation.Horizontal)
         self.central_widget.add(self.splitter_container)
 
+        self.LEFT_PANEL_INDEX = 0
+        self.RIGHT_PANEL_INDEX = -1
+
+        # ============= Left Panel ==============
         self.left_panel = LeftDock(parent=self)
         self.splitter_container.addWidget(self.left_panel)
         self.left_panel.explorer_file_selected_conn(self.open_file_from_explorer)
         self.left_panel.file_explorer.set_new_file_btn_conn(self.new_file)
         
+        # ============= Central Panel ==============
         self.central_panel = EditorArea(parent=self)
         self.splitter_container.addWidget(self.central_panel)
 
+        # ============= Right Panel ==============
         self.right_panel = RightDock(parent=self)
         self.splitter_container.addWidget(self.right_panel)
 
         self.splitter_container.setSizes([260, 900, 220])
 
-        self.LEFT_PANEL_INDEX = 0
-        self.RIGHT_PANEL_INDEX = -1
-
-        # ============= Status Bar ============
+        # ==================== Status Bar ======================
         self.status_bar = CustomStatusBar(self)
         self.setStatusBar(self.status_bar)
 
