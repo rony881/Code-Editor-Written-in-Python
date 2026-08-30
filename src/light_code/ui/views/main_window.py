@@ -47,9 +47,9 @@ class MainWindow(QMainWindow):
 
         self.left_panel = LeftDock(parent=self)
         self.splitter_container.addWidget(self.left_panel)
-        self.left_panel.explorer_file_selected_conn(
-            self.open_file_from_explorer)
-
+        self.left_panel.explorer_file_selected_conn(self.open_file_from_explorer)
+        self.left_panel.file_explorer.set_new_file_btn_conn(self.new_file)
+        
         self.central_panel = EditorArea(parent=self)
         self.splitter_container.addWidget(self.central_panel)
 
