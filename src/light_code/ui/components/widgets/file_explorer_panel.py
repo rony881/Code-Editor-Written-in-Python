@@ -19,7 +19,6 @@ class FileExplorer(BaseWidget):
         logger.info("Initializing FileExplorer")
         
         self.header = FileExplorerHeader(self)
-        self.header.new_file_btn.clicked.connect(lambda: self.new_file())
         self.add(self.header)
         
         self.file_tree_view = FileTreeView(self)
@@ -45,8 +44,6 @@ class FileExplorer(BaseWidget):
     def new_file(self, file_name: str = "untitled.py", folder_path: str|None = None) -> bool:
         """Create a new file in the specified folder or the current selection."""
         logger.info(f"Creating new file: {file_name}")
-        # If no folder path is provided, 
-        # use the current selection or root.
         if folder_path is None:
             index = self.file_tree_view.currentIndex()
     
@@ -69,6 +66,9 @@ class FileExplorer(BaseWidget):
 
     def set_folder_lbl_text(self, text: str) -> None:
         self.header.folder_lbl.setText(text)
+
+    def set_new_file_btn_conn(self, conn) -> None:
+        self.header.new_file_btn.clicked.connect(conn)
 
     def setFolderPath(self, folder_path: str) -> None:
         """Point the explorer at a new root folder."""
