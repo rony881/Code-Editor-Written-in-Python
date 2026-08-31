@@ -18,22 +18,18 @@ class EditorArea(TabBase):
 
     def add_tab(self, tab_name: str, file_path: str, content: str) -> int | None:
         """ this method used for open a tab """
-        
-        # check if the file is already open
+        logger.info(f"Adding tab: {tab_name}")
         if file_path in self.OPEN_TABS:
             tab = self.OPEN_TABS[file_path]  # -> tab
             index = self.indexOf(tab)
             self.setCurrentIndex(index)
             return
-
-        # create a new tab
+            
         tab = BaseEditor(file_path = file_path)
         tab.setText(content)
-
-        # Creat New Tab and return Tab Index
+        
         tab_index = self.addTab(tab, tab_name)
 
-        # saving the file and tab open to the list
         self.OPEN_TABS[file_path] = tab
         self.setCurrentIndex(tab_index)
 
