@@ -1,7 +1,7 @@
 # src/ui/views/main_window.py
 
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QInputDialog, QMainWindow, QSplitter
+from PyQt6.QtWidgets import QInputDialog, QMainWindow, QSplitter, QFileDialog
 from PyQt6.QtCore import Qt
 
 from config import STYLE_SHEET_FILE, WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         self.right_panel = RightDock(parent=self)
         self.splitter_container.addWidget(self.right_panel)
 
-        self.splitter_container.setSizes([260, 900, 220])
+        self.splitter_container.setSizes([260, 1000, 0])
 
         # ==================== Status Bar ======================
         self.status_bar = CustomStatusBar(self)
@@ -157,8 +157,12 @@ class MainWindow(QMainWindow):
         self.left_panel.file_explorer.new_file(file_name)
 
     def open_file(self):
-        """Open a file."""
-        pass
+        """Ask the user to select a file and open it."""
+        logger.info("Opening file...")
+        file_path = QFileDialog.getOpenFileName(self, "Open File", "", "All Files (*)")[0]
+        if file_path:
+            content, file_name = read_file(file_path)
+            self.central_panel.add_tab(file_name, file_path, content)
 
     def browse_folder(self):
         """Open a folder."""
