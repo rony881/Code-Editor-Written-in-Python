@@ -133,7 +133,7 @@ class MainWindow(QMainWindow):
         style_sheet, _ = read_file(styleSheetFile)
         return style_sheet
 
-    def current_file_path(self) -> str:
+    def current_file_path(self) -> str | None:
         return self.central_panel.current_file_path()
 
     # File / Edit / View / Settings / About / Help methods unchanged below...
