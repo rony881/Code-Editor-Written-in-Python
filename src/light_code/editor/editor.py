@@ -34,10 +34,10 @@ class BaseEditor(QsciScintilla):
 
         # Line Number Foreground And Background Color:
         self.setMarginsForegroundColor(
-            QColor("#8b949e")
+            QColor("#7d858e")
         )  # line Number Foreground Color (muted text)
         self.setMarginsBackgroundColor(
-            QColor("#161b22")
+            QColor("#0d1117")
         )  # line Number Background Color (panel bg)
 
         # Caret Line Back and Foreground:
