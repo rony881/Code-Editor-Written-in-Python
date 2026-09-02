@@ -6,38 +6,36 @@ QMenuBar {
     background-color: #161b22;
     color: #c9d1d9;
     border-bottom: 1px solid #21262d;
-    padding: 2px 0;
-    font-size: 13px;
+    font-size: 12px;
 }
 QMenuBar::item {
-    padding: 6px 12px;
+    padding: 7px 8px;
     border-radius: 6px;
-    margin: 2px 1px;
+    margin: 1px 1px;
 }
 QMenuBar::item:selected {
-    background-color: #1f6feb33;
+    background-color: #2d3138;
     color: #58a6ff;
 }
 QMenu {
     background-color: #1c2128;
     color: #c9d1d9;
     border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 4px;
+    border-radius: 7px;
 }
 QMenu::item {
-    padding: 8px 32px 8px 16px;
+    padding: 8px 20px 8px 12px;
     border-radius: 4px;
-    margin: 1px 4px;
+    margin: 3px 3px;
 }
 QMenu::item:selected {
-    background-color: #1f6feb44;
+    background-color: #2d3138;
     color: #58a6ff;
 }
 QMenu::separator {
-    height: 1px;
+    height: 2px;
     background: #21262d;
-    margin: 4px 12px;
+    margin: 4px 4px;
 }
 QTabWidget::pane {
     border: none;
@@ -127,7 +125,7 @@ QTreeView#file_tree_view::item {
     margin: 1px 4px;
 }
 QTreeView#file_tree_view::item:selected {
-    background: #1f6feb33;
+    background: #28414C;
     color: #58a6ff;
 }
 QTreeView#file_tree_view::item:hover:!selected {
