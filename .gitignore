@@ -1,7 +1,8 @@
 __pycache__
-*.pyc
+*.py[oc]
 .venv
 .env
 .vscode
 .zed
 uv.lock
+*.egg-info
