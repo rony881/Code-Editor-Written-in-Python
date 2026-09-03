@@ -34,3 +34,30 @@ def write_file(file_path, content):
         raise
     else:
         logger.info(f"Successfully wrote file: {file_path}")
+
+
+def rename_file(old_file_path, new_file_name):
+    """
+    Renames a file.
+    Returns:
+        Path: The new file path.
+    """
+    old_file_path = Path(old_file_path)
+    new_file_name = Path(new_file_name)
+
+    if new_file_name.suffix:
+        new_file_path = old_file_path.parent / new_file_name.name
+    else:
+        new_file_path = old_file_path.parent / (
+            new_file_name.name + old_file_path.suffix
+        )
+
+    try:
+        logger.info(f"Renaming file: {old_file_path} to {new_file_path}")
+        old_file_path.rename(new_file_path)
+    except Exception as e:
+        logger.error(f"Error renaming file: {e}")
+        raise
+    else:
+        logger.info(f"Successfully renamed file: {old_file_path} to {new_file_path}")
+        return new_file_path
