@@ -19,6 +19,7 @@ class EditorArea(TabBase):
     def add_tab(self, tab_name: str, file_path: str, content: str) -> int | None:
         """ this method used for open a tab """
         logger.info(f"Adding tab: {tab_name}")
+        file_path = str(file_path)
         if file_path in self.OPEN_TABS:
             tab = self.OPEN_TABS[file_path]  # -> tab
             index = self.indexOf(tab)
@@ -55,13 +56,29 @@ class EditorArea(TabBase):
 
         return content
 
-    def rename_tab(self, new_name: str) -> None:
+    def rename_current_tab(self, new_name: str) -> None:
         """Rename the current tab to the given name."""
         widget = self.currentWidget()
         if widget is None:
             return
         index = self.currentIndex()
         self.setTabText(index, new_name)
+
+    def close_tab_by_path(self, file_path: str) -> None:
+        """Silently close and remove the tab for the given file path.
+        """
+        file_path = str(file_path)
+        widget = self.OPEN_TABS.get(file_path)
+        if widget is None:
+            return
+
+        index = self.indexOf(widget)
+        if index == -1:
+            return
+
+        del self.OPEN_TABS[file_path]
+        self.removeTab(index)
+        widget.deleteLater()
         
 
     def on_close_tab(self, index: int) -> None:
@@ -94,4 +111,3 @@ class EditorArea(TabBase):
     
         if widget is not None:
             widget.deleteLater()
-            
