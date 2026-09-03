@@ -23,8 +23,6 @@ class CustomMenuBar(MenuBaseWidget):
                 MenuItem("Open Folder", handler=win.browse_folder,
                          shortcut="Ctrl+K"),
                 MenuItem("Save", handler=win.save_file, shortcut="Ctrl+S"),
-                MenuItem("Save As...", handler=win.save_file_as,
-                         shortcut="Ctrl+Shift+S"),
                 None,
                 MenuItem("Close Tab", handler=win.close_tab,
                          shortcut="Ctrl+W"),

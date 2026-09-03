@@ -175,20 +175,6 @@ class MainWindow(QMainWindow):
 
         write_file(file_path, content)
 
-    def save_file_as(self):
-        """Save the current file with a new name."""
-        current_file_path = self.current_file_path()
-        file_name = QFileDialog.getSaveFileName(
-            self,
-            "Save File As",
-            current_file_path,
-            "All Files (*)"
-        )[0]
-        
-        if file_name:
-            content = self.central_panel.current_content()
-            write_file(file_name, content)
-
     def close_tab(self):
         """Close the current editor tab."""
         pass
