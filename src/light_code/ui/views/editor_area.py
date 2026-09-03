@@ -55,6 +55,15 @@ class EditorArea(TabBase):
 
         return content
 
+    def rename_tab(self, new_name: str) -> None:
+        """Rename the current tab to the given name."""
+        widget = self.currentWidget()
+        if widget is None:
+            return
+        index = self.currentIndex()
+        self.setTabText(index, new_name)
+        
+
     def on_close_tab(self, index: int) -> None:
         """Close the tab at the given index, ask to save changes first."""
         widget = self.widget(index)
@@ -85,3 +94,4 @@ class EditorArea(TabBase):
     
         if widget is not None:
             widget.deleteLater()
+            
