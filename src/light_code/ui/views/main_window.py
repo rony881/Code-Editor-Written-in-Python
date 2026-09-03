@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import QInputDialog, QMainWindow, QSplitter, QFileDialog
 from PyQt6.QtCore import Qt
 
 from config import STYLE_SHEET_FILE, WINDOW_HEIGHT, WINDOW_LOGO, WINDOW_WIDTH
-from services.file_service import read_file, write_file
+from services.file_service import read_file, rename_file, write_file
 from services.run_code_service import run_python_file
 from ui.base_widgets.base_widget import BaseWidget
 from ui.views.editor_area import EditorArea
@@ -133,6 +133,12 @@ class MainWindow(QMainWindow):
         style_sheet, _ = read_file(styleSheetFile)
         return style_sheet
 
+    def open_existing_file(self, file_path: str | None = None):
+        if not file_path:
+            return
+        content, file_name = read_file(file_path)
+        self.central_panel.add_tab(file_name, file_path, content)
+
     def current_file_path(self) -> str | None:
         return self.central_panel.current_file_path()
 
@@ -174,6 +180,19 @@ class MainWindow(QMainWindow):
         content = self.central_panel.current_content()
 
         write_file(file_path, content)
+
+    def rename_file(self):
+        """Rename the current file."""
+        old_file_path = self.current_file_path()
+
+        if not old_file_path:
+            return
+
+        new_file_name, ok = QInputDialog.getText(self, "Rename File", "New file name:")
+        if ok and new_file_name:
+            new_file_path = rename_file(old_file_path, new_file_name)
+            self.central_panel.close_tab_by_path(old_file_path)
+            self.open_existing_file(str(new_file_path))
 
     def close_tab(self):
         """Close the current editor tab."""
