@@ -212,7 +212,7 @@ class MainWindow(QMainWindow):
 
     def redo(self):
         """Redo the last editing operation."""
-        pass
+        self.central_panel.redo()
 
     def cut(self):
         """Cut the selected text."""
