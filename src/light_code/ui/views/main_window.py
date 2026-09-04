@@ -1,5 +1,7 @@
 # src/ui/views/main_window.py
 
+from textwrap import indent
+
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QInputDialog, QMainWindow, QSplitter, QFileDialog
 from PyQt6.QtCore import Qt
@@ -196,7 +198,9 @@ class MainWindow(QMainWindow):
 
     def close_tab(self):
         """Close the current editor tab."""
-        pass
+        index = self.central_panel.currentIndex()
+        if index is not None:
+            self.central_panel.on_close_tab(index)
 
     # ─────────────────────────────────────────────
     # Edit
@@ -204,7 +208,7 @@ class MainWindow(QMainWindow):
 
     def undo(self):
         """Undo the last editing operation."""
-        pass
+        self.central_panel.undo()
 
     def redo(self):
         """Redo the last editing operation."""
