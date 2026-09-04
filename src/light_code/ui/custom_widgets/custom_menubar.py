@@ -44,6 +44,7 @@ class CustomMenuBar(MenuBaseWidget):
                          shortcut="Ctrl+G"),
             ],
             "View": [
+                MenuItem("Close Tab", handler=win.close_tab, shortcut="Ctrl+W"),
                 MenuItem("Toggle Left Panel", handler=win.toggle_left_panel,
                          shortcut="Ctrl+B"),
                 MenuItem("Toggle Right Panel", handler=win.toggle_right_panel,
