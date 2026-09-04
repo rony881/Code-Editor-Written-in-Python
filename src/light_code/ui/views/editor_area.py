@@ -111,3 +111,9 @@ class EditorArea(TabBase):
     
         if widget is not None:
             widget.deleteLater()
+
+    def undo(self):
+        """Undo the last editing operation."""
+        widget = self.currentWidget()
+        if widget is not None:
+            widget.undo()
