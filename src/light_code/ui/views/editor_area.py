@@ -117,3 +117,9 @@ class EditorArea(TabBase):
         widget = self.currentWidget()
         if widget is not None:
             widget.undo()
+
+    def redo(self):
+        """Redo the last editing operation."""
+        widget = self.currentWidget()
+        if widget is not None:
+            widget.redo()
